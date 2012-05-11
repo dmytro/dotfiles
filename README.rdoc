@@ -1,0 +1,26 @@
+Adapted from https://github.com/skozlov/dotfiles
+Some of the comments below are not valid, since original configs remnoved and new added.
+--Dmytro Kovalov
+
+= zshrc, screenrc, vimrc, etc (my way)
+
+This is a compilation and adaptation of different configuration tricks I found in different places on the Internet. It works for OSX and Debian Linux - two systems that I'm mostly using. There will probably be no bash stuff here, as I decided to stick to Z shell. To distinguish generic stuff that may be useful to the others from my private/experimental stuff, the latter goes into files with a name prefixed with an underscore.
+
+= Installation
+Clone the project to wherever you like to keep it, and then run
+
+  rake install
+
+When asked what to do with an existing file, you may press "r" to automatically rename the file in question into <tt><filename>.backup.<currentdate></tt>.
+
+To change the default shell, run
+  
+  chsh -s /bin/zsh
+
+= Prerequisites
+If you want nice colors for the <tt>ls</tt> command under OSX, install GNU coreutils: http://mattbsoftware.blogspot.com/2009/04/colerful-ls-dircolors-on-mac.html.
+
+= Sources
+* oh-my-zsh: http://github.com/robbyrussell/oh-my-zsh - took a lot of stuff from here and cleaned it up
+* Ryan Bates Dot Files: http://github.com/ryanb/dotfiles - installation rake task
+* zsh-lovers man page: http://grml.org/zsh/zsh-lovers.html - different tricks

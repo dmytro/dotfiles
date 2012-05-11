@@ -1,0 +1,67 @@
+# Ideas from http://github.com/robbyrussell/oh-my-zsh
+
+# Enable in-prompt calculations
+setopt prompt_subst
+
+ZSH_THEME_GIT_PROMPT_PREFIX="(%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}⚡%{$fg[blue]%})%{$reset_color%} "
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
+
+# get the name of the branch we are on
+function git_prompt_info() {
+  # displayes current dir in the title of terminal's tab/window
+  # curdir=$(basename `pwd`)
+  # echo -n -e "\033]0;$curdir\007"
+
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+}
+
+function rvm_info() {
+  echo $(ruby -v | cut -d\  -f2 | cut -dp -f1)
+}
+
+if [ -s ~/.rvm/scripts/rvm ] ; then
+  source ~/.rvm/scripts/rvm
+
+  # Prompt function. Return the full version string.
+  function ruby_prompt_version_full {
+    version=$(
+      rvm info |
+      grep -m 1 'full_version' |
+      sed 's/^.*full_version:[ ]*//' |
+      sed 's/["]//g'
+    ) || return
+    echo $version
+  }
+
+  # Prompt function. Return just the version number.
+  function ruby_prompt_version {
+    version=$(
+      rvm info |
+      grep -m 1 'version' |
+      sed 's/^.*version:[ ]*//' |
+      sed 's/["]//g'
+    ) || return
+    echo $version
+  }
+fi # Ruby Version Manager
+
+parse_git_dirty () {
+  if [[ $(git status  | tail -n1) != "nothing to commit (working directory clean)" ]]; then
+    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+  else
+    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
+  fi
+}
+
+# For OSX the prompt is simpler than for Linux (when I also want to see the hostname and current time)
+# Indicate git status in the prompt
+if [[ $(uname) = "Darwin" ]]; then
+  PROMPT='%{$fg_bold[green]%}➡ %{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}% %{$reset_color%}'
+else
+  PROMPT='%{$fg_bold[yellow]%}➡ %{$fg_bold[white]%}%m %{$fg[blue]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}% %{$reset_color%}'
+  RPROMPT='%{$fg[green]%}%D{%H:%M}%{$reset_color%}'
+fi

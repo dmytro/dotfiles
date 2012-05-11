@@ -1,0 +1,17 @@
+# tmux Sessions for Simply Cubed dev
+new  -s SimplyCubed -n SimplyCubed Command
+
+setenv -g BASE ~/Development/SimplyCubed
+setenv -g DOC  ${BASE}/documentation
+setenv -g WIKI ${DOC}/wiki
+
+neww -n webticket "cd ${BASE}/webtickets; zsh"
+splitw -h -p 50 -t 0 "cd ${BASE}/webtickets; zsh "
+
+neww -n wiki "cd ${WIKI}; zsh"
+splitw -h -p 50 -t 0 "cd ${WIKI}; gollum ; zsh "
+
+neww -n shell "cd ${BASE}; zsh"
+
+selectw -t 1 
+selectp -t 0

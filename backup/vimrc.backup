@@ -1,0 +1,155 @@
+autocmd!
+
+set nocompatible              "don't need to keep compatibility with Vi
+
+set noswapfile
+
+syntax on                     "turn on syntax highlighting
+ 
+set showcmd                   "show incomplete cmds down the bottom
+set showmode                  "show current mode down the bottom
+ 
+set incsearch                 "find the next match as we type the search
+"set hlsearch                  "hilight searches by default
+ 
+"set nowrap                    "dont wrap lines
+set linebreak                 "wrap lines at convenient points
+ 
+set shiftwidth=2              "number of spaces to use in each autoindent step
+set tabstop=2                 "two tab spaces
+set softtabstop=2             "number of spaces to skip or insert when <BS>ing or <Tab>ing
+set expandtab                 "spaces instead of tabs for better cross-editor compatibility
+set autoindent                "keep the indent when creating a new line
+set smarttab                  "use shiftwidth and softtabstop to insert or delete (on <BS>) blanks
+set cindent                   "recommended seting for automatic C-style indentation
+set autoindent                "automatic indentation in non-C files
+set scrolloff=3               "more context around the cursor
+
+set hidden                    "allow hiding buffers with unsaved changes
+
+filetype plugin on
+
+set tags+=ftags
+
+runtime macros/matchit.vim    "extended %-key functionality (matches begin/end, class/end, etc)
+
+set wildmenu                  "show options for autocompletion when typing a command
+
+"These two options, when set together, will make /-style searches case-sensitive only if there is a capital letter in the search expression. 
+"*-style searches continue to be consistently case-sensitive.
+set ignorecase 
+set smartcase
+
+set ruler
+
+set exrc			" enable per-directory .vimrc files
+set secure			" disable unsafe commands in local .vimrc files
+
+nnoremap ' `
+nnoremap ` '
+
+let mapleader = ","
+
+set history=1000
+
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+
+"Moving between windows
+map <C-L> <C-W><C-L>
+map <C-H> <C-W><C-H>
+map <C-K> <C-W><C-K>
+map <C-J> <C-W><C-J>
+
+"NERDTree
+map <leader>n :NERDTreeToggle<CR>
+map <leader>l :NERDTreeFind<CR>
+
+"TODO: only for Ruby
+imap <C-L> <SPACE>=><SPACE>
+
+
+"CommandT
+let g:CommandTMaxHeight=10
+let g:CommandTMatchWindowAtTop=1
+"I like deleting words with Ctrl+w
+let g:CommandTClearMap=['<C-w>', '<C-u>']
+
+colorscheme idle
+
+"Saving all files on losing focus
+autocmd FocusLost * :wall
+"autocmd FocusLost * <C-C>
+
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+"Enable auto indent
+if has("autocmd")
+  filetype plugin indent on
+endif
+
+"From http://derekwyatt.org/vim/the-vimrc-file/my-vimrc-file
+
+" Set the status line the way i like it
+set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n
+
+" tell VIM to always put a status line in, even if there is only one window
+set laststatus=2
+
+" set the gui options the way I like
+set guioptions=ac
+
+" Add ignorance of whitespace to diff
+set diffopt+=iwhite
+
+" Toggle paste mode
+nmap <silent> ,p :set invpaste<CR>:set paste?<CR>
+
+" Syntax coloring lines that are too long just slows down the world
+set synmaxcol=2048
+
+" From https://wincent.com/blog/2-hours-with-vim
+" Ack'ing in the project
+"function! AckGrep(command)
+  "cexpr system("ack " . a:command)
+  "cw " show quickfix window already
+"endfunction
+
+"command! -nargs=+ -complete=file Ack call AckGrep(<q-args>)
+
+map <leader>f :Ack<space>
+
+" Reproduce TextMate's Cmd+Enter behavior
+inoremap <D-Enter> <esc>o
+noremap <D-Enter> o<esc>
+
+" Misc
+"
+" Who wants ^?
+map 0 ^
+map - $
+imap <C-_> <End>
+
+" TODO: replace with something better
+vnoremap ,m :s/_\([a-z]\)/\u\1/g<CR>gUl
+vnoremap ,u :s/\<\@!\([A-Z]\)/\_\l\1/g<CR>gul
+
+
+" Edit .vimrc in new tab
+nmap <leader>vr :tabedit $MYVIMRC<CR>
+" Edit snippets
+nmap <leader>vs :tabedit ~/.vim/snippets<CR>
+
+" On saving .vimrc, source it
+"autocmd BufWritePost .vimrc source $MYVIMRC
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "context"
+
+" Soft wrap lines (from http://jjinux.blogspot.com/2007/02/vim-soft-wrap.html)
+set wrap linebreak 
+set textwidth=0
+
+au Filetype changelog set textwidth=0
