@@ -1,6 +1,7 @@
 
-ADD_KEYS="id_rsa id_dsa github github_dsa github_rsa heroku"
-LINK=$(readlink /tmp) # /tmp is sylink in MacOSX
+# Auto add some of ssh keys 
+ADD_KEYS="id_rsa id_dsa github heroku"
+LINK=$(readlink /tmp) # /tmp is symlink in MacOSX
 TMP=/${LINK:-tmp}
 DIR=$(find ${TMP} -user $(whoami) -name ssh-\* 2> /dev/null | head -1)
 if [ ! -z "${DIR}" ] ; then
