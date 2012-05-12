@@ -1,0 +1,55 @@
+# windows, time, date -always on line:
+hardstatus alwayslastline "Screen: %-Lw%{= bw}%50>%n%f* %t%{-}%+Lw%<%=%{kw}%H: %D/%M/%d %C"
+
+# Turn off start message:
+startup_message off
+
+# Set messages timeout to one second: 
+msgwait 5
+
+shell /bin/bash
+
+# change the default escape from ctrl-a to '
+# NOTE: Sometime problems with cut&paste #escape "''"
+escape "``"
+
+## change the default escape from ctrl-a to ctrl-\ #escape ^\\\ # # will be escape # escape ^[[
+
+defscrollback 10000
+
+# emulate .logout message
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+
+# nethack style messages
+nethack on
+
+#deflogin off
+
+##    Keybindings    ##
+bind ^\
+
+### detach screen session from this terminal bindkey -k k6 detach
+
+## to kill current screen window.
+bindkey -k k7 kill
+
+# Home
+bindkey -k kh prev
+# End
+bindkey -k kH next
+
+
+### to create a new screen
+bindkey -k k1 screen
+
+### to move to previous window
+bindkey -k k2 prev
+
+### to move to next window
+bindkey -k k3 next
+
+### to rename current screen window
+bindkey -k k4 title
+
+multiuser on
+acladd root

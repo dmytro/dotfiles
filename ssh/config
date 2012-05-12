@@ -1,3 +1,4 @@
+IdentityFile ~/.ssh/svaroh
 IdentityFile ~/.ssh/id_dsa
 IdentityFile ~/.ssh/github
 IdentityFile ~/.ssh/heroku
