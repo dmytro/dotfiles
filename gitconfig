@@ -1,0 +1,7 @@
+[user]
+	email = dmytro.kovalov@gmail.com
+	name = Dmytro Kovalov
+[alias]
+	co = checkout
+	ci = commit
+	stat = status

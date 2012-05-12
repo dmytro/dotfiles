@@ -55,12 +55,14 @@ task :install do
     end
   end
 
-  FileUtils::mkdir_p "~/.vim"
-  link_file("vim/snippets") # handle separately, as vim/ already should exist
+  # Handle things separately .ssh and .vim
+  # FileUtils::mkdir_p "~/.vim"
+  # link_file("vim/snippets") # handle separately, as vim/ already should exist
+  link_file("ssh/config") # handle separately, as vim/ already should exist
 end
 
 def skip?(file)
-  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup vim].include?(file)
+  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup vim ssh].include?(file)
 end
 
 def replace_file(file)
