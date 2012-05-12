@@ -58,7 +58,7 @@ task :install do
   # Handle things separately .ssh and .vim
   # FileUtils::mkdir_p "~/.vim"
   # link_file("vim/snippets") # handle separately, as vim/ already should exist
-  link_file("ssh/config") # handle separately, as vim/ already should exist
+  link_file("ssh/config")
 end
 
 def skip?(file)
