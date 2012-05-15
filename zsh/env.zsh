@@ -13,3 +13,8 @@ export LSCOLORS=ExGxcxdxBxegedabagacad
 
 export PATH=$PATH:/sbin:/usr/sbin:/usr/local/bin
 
+#
+# Enable comments on CLI
+# 
+setopt interactivecomments
+

@@ -1,4 +1,16 @@
+#Host 192.168.2.*
+Host *
 IdentityFile ~/.ssh/svaroh
 IdentityFile ~/.ssh/id_dsa
-IdentityFile ~/.ssh/github
+
+Host heroku.com
 IdentityFile ~/.ssh/heroku
+
+Host github.com
+	IdentityFile ~/.ssh/github
+
+Host viy
+	HostName viy.sakae
+	IdentityFile ~/.ssh/svaroh
+	User dk
+

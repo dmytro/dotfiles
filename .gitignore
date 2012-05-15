@@ -2,3 +2,4 @@
 *.tmproj
 vim/doc/tags
 _*
+.*.swp
