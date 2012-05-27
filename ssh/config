@@ -3,6 +3,9 @@ Host *
 IdentityFile ~/.ssh/svaroh
 IdentityFile ~/.ssh/id_dsa
 
+Host ub
+	User ubuntu
+
 Host heroku.com
 IdentityFile ~/.ssh/heroku
 
