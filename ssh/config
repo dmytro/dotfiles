@@ -8,21 +8,13 @@ Host ub
 #
 # Wizcorp
 #
-Host dev
+Host v?, virt?, cobbler
+	IdentityFile ~/.ssh/virtuals
+
+Host spearhead, dev, dufflebag, gladius
 	User dk
 	IdentityFile ~/.ssh/wcorp
 
-Host spearhead
-	User dk
-	IdentityFile ~/.ssh/wcorp
-
-Host dufflebag
-	User dk
-	IdentityFile ~/.ssh/wcorp
-
-Host gladius
-	User dk
-	IdentityFile ~/.ssh/wcorp
 
 Host heroku.com
 	IdentityFile ~/.ssh/heroku
