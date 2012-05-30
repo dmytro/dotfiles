@@ -57,9 +57,9 @@ function sp {
 alias rmlogs='rm -f log/*.log'
 alias rst='touch tmp/restart.txt'
 
-function rake { if [ -e ./Gemfile.lock ]; then bundle exec rake "$@"; else /usr/bin/env rake "$@"; fi; }
-function cucumber { if [ -e ./Gemfile.lock ]; then bundle exec cucumber "$@"; else cucumber "$@"; fi; }
-function rspec { if [ -e ./Gemfile.lock ]; then bundle exec rspec "$@"; else rspec "$@"; fi; }
+# function rake { if [ -e ./Gemfile.lock ]; then bundle exec rake "$@"; else /usr/bin/env rake "$@"; fi; }
+# function cucumber { if [ -e ./Gemfile.lock ]; then bundle exec cucumber "$@"; else cucumber "$@"; fi; }
+# function rspec { if [ -e ./Gemfile.lock ]; then bundle exec rspec "$@"; else rspec "$@"; fi; }
 
 alias killruby='sudo killall -9 ruby'
 
