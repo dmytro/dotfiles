@@ -5,9 +5,19 @@ IdentityFile ~/.ssh/id_dsa
 
 Host ub
 	User ubuntu
+#
+# Wizcorp
+#
+Host v?, virt?, cobbler
+	IdentityFile ~/.ssh/virtuals
+
+Host spearhead, dev, dufflebag, gladius
+	User dk
+	IdentityFile ~/.ssh/wcorp
+
 
 Host heroku.com
-IdentityFile ~/.ssh/heroku
+	IdentityFile ~/.ssh/heroku
 
 Host github.com
 	IdentityFile ~/.ssh/github
