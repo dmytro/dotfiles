@@ -1,3 +1,4 @@
+StrictHostKeyChecking no
 #Host 192.168.2.*
 Host *
 IdentityFile ~/.ssh/svaroh
@@ -8,6 +9,10 @@ Host ub
 #
 # Wizcorp
 #
+Host gw?
+	User admin
+	IdentityFile ~/.ssh/proxy_access.id_dsa
+
 Host v? virt? cobbler
 	IdentityFile ~/.ssh/virtuals
 
