@@ -213,3 +213,8 @@
 (setq auto-mode-alist (cons '( "\\.tmpl\\'" . cheetah-mode ) auto-mode-alist ))
 ;(setq comment-start "##")  
 ;(setq comment-end "")
+
+;;; Disabled - hangs emacs
+;;; (load "/Applications/Emacs.app/Contents/Resources/site-lisp/nxhtml/autostart.el")
+;;; (load "/Users/dmytro/.lisp/jekyll/jekyll-mumamo.el")
+;;; (load "/Users/dmytro/.lisp/jekyll/jekyll.el")
