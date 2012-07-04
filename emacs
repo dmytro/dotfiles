@@ -106,6 +106,7 @@
 ;; SHELL
 ;; 
 (if (file-exists-p "/bin/bash") (setq explicit-shell-file-name "/bin/bash"))
+(if (file-exists-p "/bin/zsh")  (setq explicit-shell-file-name "/bin/zsh"))
 
 ;; 
 ;; PYTHON
@@ -123,7 +124,8 @@
 (setq html-helper-use-expert-menu 't) ; full menu
 					;Apr 21 1999
 
-;; RUBY
+;;; ============================================================
+;;; RUBY
 (require 'ruby-mode)
 (require 'ruby-electric)
  
@@ -139,7 +141,9 @@
 (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
 
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rb$"   . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile"  . ruby-mode))
  
 ;; Rinari Mode (Rails)
 (add-to-list 'load-path "~/.lisp/rinari")
@@ -159,10 +163,8 @@
 
 (add-hook 'ruby-mode-hook (lambda () (ruby-electric-mode t)))
 
-;; -- Ruby mode
-
-(kill-buffer "*scratch*") ;; Kill default scratch buffer
-
+;;; ----------------------------------------
+;;; -- Ruby mode
 
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
@@ -213,3 +215,5 @@
 (setq auto-mode-alist (cons '( "\\.tmpl\\'" . cheetah-mode ) auto-mode-alist ))
 ;(setq comment-start "##")  
 ;(setq comment-end "")
+
+(kill-buffer "*scratch*") ;; Kill default scratch buffer
