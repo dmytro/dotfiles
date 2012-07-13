@@ -4,6 +4,11 @@ Host *
 IdentityFile ~/.ssh/svaroh
 IdentityFile ~/.ssh/id_dsa
 
+# Host-only net VirtualBox
+#
+Host 192.168.56.*
+	User root
+
 Host ub
 	User ubuntu
 #

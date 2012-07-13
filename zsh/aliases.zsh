@@ -15,8 +15,8 @@ alias ll='ls -Al'
 alias lll='ls -al'
 
 alias psgrep='ps aux | grep $1'
-alias s='screen'
-alias sr='screen -r'
+#alias s='screen'
+#alias sr='screen -r'
 
 alias tailf='tail -f -n200'
 
