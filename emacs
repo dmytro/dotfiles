@@ -48,6 +48,8 @@
 (setq column-number-mode t) ;; Show column numbers
 (setq line-number-mode 1) ;; Show line numbers
 (setq-default indent-tabs-mode nil) ;; Use spaces for tabs
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
 (setq visible-bell t) ;; Visable bells
 (delete-selection-mode 1)
 (setq transient-mark-mode 't)
@@ -195,6 +197,9 @@
 
 (autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+(setq-default puppet-indent-level 4)
+(setq-default puppet-indent-tabs-mode nil)
+
 ;;;
 ;;; Cheetah-Mode is for editing snippets in Cobbler
 ;;; 

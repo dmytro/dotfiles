@@ -6,9 +6,14 @@ IdentityFile ~/.ssh/id_dsa
 
 Host ub
 	User ubuntu
+	IdentityFile ~/.ssh/ubuntu
+
 #
 # Wizcorp
 #
+Host pox-*
+	User dk
+	IdentityFile ~/.ssh/pox
 Host gw?
 	User admin
 	IdentityFile ~/.ssh/proxy_access.id_dsa
