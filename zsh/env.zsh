@@ -11,7 +11,7 @@ export LANGUAGE=en_US.UTF-8
 #
 export LSCOLORS=ExGxcxdxBxegedabagacad
 
-export PATH=$PATH:/sbin:/usr/sbin:/usr/local/bin
+export PATH=/usr/local/bin:$PATH:/sbin:/usr/sbin
 
 #
 # Enable comments on CLI
