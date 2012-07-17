@@ -10,7 +10,30 @@
 (global-set-key "\C-x\C-o" 'other-window)
 (global-set-key "\M-`" 'other-window)
 
-;;; Fulls screen mode on/off
+;;; Naviagating with M-up/down - previos window
+;;; http://nex-3.com/posts/45-efficient-window-switching-in-emacs
+
+(defun select-next-window ()
+  "Switch to the next window" 
+  (interactive)
+  (select-window (next-window)))
+
+(defun select-previous-window ()
+  "Switch to the previous window" 
+  (interactive)
+  (select-window (previous-window)))
+
+(global-set-key (kbd "M-<up>") 'select-next-window)
+(global-set-key (kbd "M-<down>")  'select-previous-window)
+
+(global-set-key [C-M-left] 'windmove-left)          ; move to left windnow
+(global-set-key [C-M-right] 'windmove-right)        ; move to right window
+(global-set-key [C-M-up] 'windmove-up)              ; move to upper window
+(global-set-key [C-M-down] 'windmove-down)          ; move to downer window
+;;;
+
+
+;;; Full screen mode on/off
 (local-set-key (kbd "M-RET") 'toggle-fullscreen)
 (global-set-key (kbd "M-RET") 'toggle-fullscreen)
 
@@ -227,3 +250,5 @@
 ;;; (load "/Users/dmytro/.lisp/jekyll/jekyll.el")
 
 (kill-buffer "*scratch*") ;; Kill default scratch buffer
+
+
