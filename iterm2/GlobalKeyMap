@@ -35,6 +35,10 @@
         Action = 12;
         Text = "`9";
     };
+    "0x43-0x120000" =     {
+        Action = 12;
+        Text = "`c";
+    };
     "0x4d-0x120000" =     {
         Action = 12;
         Text = "`M";
