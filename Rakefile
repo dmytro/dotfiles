@@ -25,6 +25,29 @@ require 'rake'
 require 'erb'
 require 'fileutils'
 
+namespace :iterm do 
+
+  pref = "~/Library/Preferences/com.googlecode.iterm2"
+  namespace :keys do
+    
+    key  = "GlobalKeyMap"
+    keys = "iterm2/#{key}"
+
+    directory "iterm2"
+    
+    desc "Save global key mapping to file"
+    task :export => "iterm2" do
+      sh "defaults read #{pref} #{key} > #{keys}"
+    end
+
+    desc "Load global key mapping from file to iTerm2 defaults"
+    task :import do
+      data = File.read keys rescue "File does not exist: #{keys}"
+      sh "defaults read #{pref} #{key} \"#{data}\""
+    end
+  end
+end
+
 desc "install the dot files into user's home directory"
 task :install do
   replace_all = false
@@ -62,7 +85,7 @@ task :install do
 end
 
 def skip?(file)
-  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup vim ssh].include?(file)
+  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup vim ssh iterm2].include?(file)
 end
 
 def replace_file(file)
