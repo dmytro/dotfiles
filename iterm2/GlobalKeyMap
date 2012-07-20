@@ -1,4 +1,8 @@
 {
+    "0x2d-0x100000" =     {
+        Action = 12;
+        Text = "`-";
+    };
     "0x31-0x100000" =     {
         Action = 12;
         Text = "`1";
@@ -43,13 +47,25 @@
         Action = 12;
         Text = "`M";
     };
+    "0x5b-0x100000" =     {
+        Action = 12;
+        Text = "`[";
+    };
+    "0x5c-0x100000" =     {
+        Action = 12;
+        Text = "`\\\\";
+    };
+    "0x5d-0x100000" =     {
+        Action = 12;
+        Text = "`]";
+    };
+    "0x5d-0x140000" =     {
+        Action = 11;
+        Text = "0x60 0x1d";
+    };
     "0x60-0x100000" =     {
         Action = 12;
         Text = "`;";
-    };
-    "0x63-0x180000" =     {
-        Action = 11;
-        Text = "0x60 0x1d";
     };
     "0x64-0x100000" =     {
         Action = 10;
@@ -80,8 +96,8 @@
         Text = "`p";
     };
     "0xf702-0x280000" =     {
-        Action = 10;
-        Text = b;
+        Action = 11;
+        Text = "0x1b 0x62";
     };
     "0xf702-0x300000" =     {
         Action = 11;
@@ -90,6 +106,10 @@
     "0xf702-0x380000" =     {
         Action = 12;
         Text = "`p";
+    };
+    "0xf703-0x240000" =     {
+        Action = 12;
+        Text = "`n";
     };
     "0xf703-0x280000" =     {
         Action = 10;
@@ -102,29 +122,5 @@
     "0xf703-0x380000" =     {
         Action = 12;
         Text = "`n";
-    };
-    "0xf729-0x100000" =     {
-        Action = 5;
-        Text = "";
-    };
-    "0xf72b-0x100000" =     {
-        Action = 4;
-        Text = "";
-    };
-    "0xf72c-0x100000" =     {
-        Action = 9;
-        Text = "";
-    };
-    "0xf72c-0x20000" =     {
-        Action = 9;
-        Text = "";
-    };
-    "0xf72d-0x100000" =     {
-        Action = 8;
-        Text = "";
-    };
-    "0xf72d-0x20000" =     {
-        Action = 8;
-        Text = "";
     };
 }
