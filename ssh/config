@@ -23,6 +23,9 @@ Host gw?
 	User admin
 	IdentityFile ~/.ssh/proxy_access.id_dsa
 
+Host gw7
+	Hostname 180.178.71.178
+
 Host v? virt? cobbler
 	IdentityFile ~/.ssh/virtuals
 

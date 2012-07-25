@@ -255,4 +255,12 @@
 
 (kill-buffer "*scratch*") ;; Kill default scratch buffer
 
-
+;;; Hangs
+;;; (require 'tramp)
+;;; (setq tramp-default-method "ssh")
+;;; (defadvice tramp-maybe-open-connection 
+;;;   (around set-process-connection-type)
+;;;   "Set process-connection-type to pty."
+;;;   (let ((process-connection-type 'pty))
+;;;     ad-do-it))
+;;; (ad-activate 'tramp-maybe-open-connection)
