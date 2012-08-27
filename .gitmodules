@@ -19,3 +19,6 @@
 [submodule "vim/bundle/supertab"]
 	path = vim/bundle/supertab
 	url = https://github.com/ervandew/supertab.git
+[submodule "zsh/completions"]
+	path = zsh/completions
+	url = git@github.com:thrig/zsh-compdef.git

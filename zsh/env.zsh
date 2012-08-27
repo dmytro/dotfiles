@@ -11,7 +11,7 @@ export LANGUAGE=en_US.UTF-8
 #
 export LSCOLORS=ExGxcxdxBxegedabagacad
 
-export PATH=/usr/local/bin:$PATH:/sbin:/usr/sbin
+export PATH=/usr/local/bin:$PATH:/sbin:/usr/sbin:~/.tmux:~/bin
 
 #
 # Enable comments on CLI
