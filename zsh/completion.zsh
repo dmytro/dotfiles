@@ -1,4 +1,5 @@
 # Enable zsh auto-completion
+fpath=($fpath ~/.zsh/completions)
 autoload compinit && compinit
 
 # Make autocompletion feel as bash-like as possible
@@ -8,8 +9,8 @@ setopt no_always_last_prompt
 
 # From http://lethalman.blogspot.com/2009/10/speeding-up-zsh-completion.html
 zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
+#zstyle ':completion:*' use-cache on
+#zstyle ':completion:*' cache-path ~/.zsh/cache
 
 
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -31,3 +32,4 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 PS1="%B%(?..[%?] )%b%n@%m$ "
+

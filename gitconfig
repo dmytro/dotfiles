@@ -33,7 +33,6 @@
     s = status
     br = branch
     bra = branch -a
-    ci = commit -a
     co = checkout
     st = status
     praise = blame
