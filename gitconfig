@@ -1,7 +1,84 @@
 [user]
-	email = dmytro.kovalov@gmail.com
-	name = Dmytro Kovalov
+    email = dmytro.kovalov@gmail.com
+    name = Dmytro Kovalov
 [alias]
-	co = checkout
-	ci = commit
-	stat = status
+    co = checkout
+    ci = commit
+    stat = status
+    lg1 = log --graph --format=format:'%C(red)%h%C(reset)  %C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(bold cyan)%an%C(reset) %C(green)(%ar)%C(reset)' --abbrev-commit --date=relative
+    lg2 = log --graph --decorate --pretty=oneline --abbrev-commit
+
+
+    lol = !"git lg2"
+    lola = !"git lol --all"
+
+    #diff
+    dc = diff --cached
+
+    # Gitflow
+    feature = flow feature
+    ft = flow feature
+    fs = flow feature start
+    ff = flow feature finish
+    release = flow release
+    rl = flow release
+    rs = flow release start
+    rf = flow release finish
+    hotfix = flow hotfix
+    hf = flow hotfix
+    hs = flow hotfix start
+    hf = flow hotfix finish
+
+    st = status
+    s = status
+    br = branch
+    bra = branch -a
+    ci = commit -a
+    co = checkout
+    st = status
+    praise = blame
+    bl = gui blame
+[color]
+    ui = auto
+    branch = always
+[color "branch"]
+    current = green bold reverse
+    local = green
+    remote = yellow
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
+[color "decorate"]
+    head = bold cyan reverse
+    branch = bold green reverse
+    remotebranch = bold yellow reverse
+    
+[apply]
+    whitespace = strip
+
+[diff]
+        color = auto
+        rename = copy
+[pager]
+        color = true
+
+[status]
+        color = auto
+
+[core]
+	excludesfile = /Users/yuri/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[log]
+  decorate = full
+  pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
