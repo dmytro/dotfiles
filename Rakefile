@@ -25,6 +25,26 @@ require 'rake'
 require 'erb'
 require 'fileutils'
 
+namespace :ssh do 
+  namespace :config do 
+
+    desc "Generate .ssh/config file from template and includes"
+    task :generate do 
+      Dir.glob("ssh/include/*").each do |path|
+        file = path.split("/").last
+        content = File.read path
+        eval "$#{file} = '#{content}'"
+      end
+      File.open 'ssh/config', 'w' do |f|
+        f.print ERB.new(File.read("ssh/config.erb")).result(binding)
+        f.close
+      end
+      File.chmod 0600, "ssh/config"
+
+    end
+  end
+end
+
 namespace :iterm do 
 
   pref = "~/Library/Preferences/com.googlecode.iterm2"

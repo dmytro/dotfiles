@@ -1,0 +1,42 @@
+# vi:noai:nosm:tw=76 ts=4 sw=4
+# From  http://blogs.perl.org/users/smylers/2011/08/ssh-productivity-tips.html
+StrictHostKeyChecking no
+ControlMaster auto
+ControlPath /tmp/ssh_mux_%h_%p_%r
+ControlPersist 6h
+ForwardAgent yes
+GSSAPIAuthentication no
+# 
+# Host-only net VirtualBox
+#
+Host 192.168.56.*
+    User root
+
+Host ub
+    User ubuntu
+    IdentityFile ~/.ssh/ubuntu
+
+#
+# Development stuff
+#
+Host heroku.com
+    IdentityFile ~/.ssh/heroku
+
+Host github.com gist.github.com
+    HostName github.com
+    IdentityFile ~/.ssh/github
+    User git
+
+Host viy
+    HostName viy.sakae
+    IdentityFile ~/.ssh/svaroh
+    User dk
+
+<%= $wizcorp %>
+
+#Host 192.168.2.*
+Host *
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/svaroh
+    IdentityFile ~/.ssh/id_dsa
+
