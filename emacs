@@ -268,3 +268,32 @@
 (require 'json-mode)
 (autoload 'json-mode "json-mode" "Major mode for editing JSON data")
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+;;;
+;;; Markdown mode
+;;;
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) 
+(setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+(defun markdown-custom () "markdown-mode-hook" 
+  (set-variable 'fill-column' 1000)
+  ) 
+(add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
+
+;;;
+;;; textile mode
+;;; http://dev.nozav.org/textile-mode.html
+
+(require 'textile-mode)
+(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+(defun textile-custom () "textile-mode-hook" 
+  (set-variable 'fill-column' 1000)
+  ) 
+(add-hook 'textile-mode-hook '(lambda() (textile-custom)))
+
+;;; 
+;;; Nagios mode 
+;;; http://michael.orlitzky.com/code/nagios-mode.php
+(require 'nagios-mode)
+(setq auto-mode-alist
+    (append (list '("\\.cfg$" . nagios-mode))
+      auto-mode-alist))
