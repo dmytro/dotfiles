@@ -6,7 +6,7 @@ tmux source-file ~/.tmux/SimplyCubed
 
 tmux_pwd () {
 
-
+    [ -z "${TMUX}" ] && return
     # Can't make -t0:0 working, so -tN only for now....
     #TARGET=$(tmux display-message; tmux show-messages | awk 'END {gsub(/[\[\]]/, "", $6);  split($7, a, ":"); print "-t"$6":"a[1]}')
     #TARGET=\-t$(tmux display-message -p "#S:#I")
