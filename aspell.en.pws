@@ -1,4 +1,4 @@
-personal_ws-1.1 en 55 
+personal_ws-1.1 en 61 
 login
 exnvironments
 STDOUT
@@ -21,10 +21,12 @@ uname
 wget
 RedHat
 SNMP
+AWS
 Couchbase
 couchbase
 perl
 TODO
+zsh
 Nagira
 nagios
 Gubygems
@@ -35,12 +37,14 @@ sudo
 AIX
 yaml
 YAML
+Google
 crontab
 Debian's
 Crontabs
 NOPASSWD
 CentOS
 hostname
+unix
 kickstart
 cron
 Dmytro
@@ -51,6 +55,8 @@ API
 yarddoc
 CGI
 debian
+blog
+ERB
 Kovalov
 HOWTO
 params
