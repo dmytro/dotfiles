@@ -21,4 +21,4 @@
 	url = https://github.com/ervandew/supertab.git
 [submodule "zsh/completions"]
 	path = zsh/completions
-	url = git@github.com:thrig/zsh-compdef.git
+	url = git@github.com:dmytro/zsh-compdef.git
