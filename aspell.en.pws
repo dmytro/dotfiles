@@ -27,6 +27,7 @@ couchbase
 perl
 TODO
 zsh
+nagira
 Nagira
 nagios
 Gubygems
@@ -36,7 +37,6 @@ initrd
 sudo
 AIX
 yaml
-YAML
 Google
 crontab
 Debian's
