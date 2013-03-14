@@ -23,6 +23,7 @@
   (interactive)
   (select-window (previous-window)))
 
+(global-set-key (kbd "M-`") 'select-next-window)
 (global-set-key (kbd "M-<up>") 'select-next-window)
 (global-set-key (kbd "M-<down>")  'select-previous-window)
 
@@ -171,6 +172,8 @@
 
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rb$"   . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$"   . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$"   . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile"  . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile"  . ruby-mode))
@@ -299,3 +302,25 @@
 (setq auto-mode-alist
     (append (list '("\\.cfg$" . nagios-mode))
       auto-mode-alist))
+
+;;    ⌘T - Go to File
+;;  ⇧⌘T - Go to Symbol
+;;    ⌘L - Go to Line
+;;  ⇧⌘L - Select Line (or expand Selection to select lines)
+;;    ⌘/ - Comment Line (or Selection/Region)
+;;    ⌘] - Shift Right (currently indents region)
+;;    ⌘[ - Shift Left  (not yet implemented)
+;;  ⌥⌘] - Align Assignments
+;;  ⌥⌘[ - Indent Line
+;;    ⌥↑ - Column Up
+;;    ⌥↓ - Column Down
+;;  ⌘RET - Insert Newline at Line's End
+;;  ⌥⌘T - Reset File Cache (for Go to File)
+
+;;; too much troubles...
+;; (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
+;; (require 'textmate)
+;; (textmate-mode)
+
+(require 'haml-mode)
+

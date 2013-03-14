@@ -1,6 +1,6 @@
 [user]
-    email = dmytro.kovalov@gmail.com
-    name = Dmytro Kovalov
+	email = dmytro.kovalov@gmail.com
+	name = Dmytro Kovalov
 [alias]
     co = checkout
     ci = commit
@@ -14,6 +14,7 @@
 
     #diff
     dc = diff --cached
+    dw = diff --word-diff
 
     # Gitflow
     feature = flow feature
@@ -71,7 +72,7 @@
         color = auto
 
 [core]
-	excludesfile = /Users/yuri/.gitignore_global
+	excludesfile = /Users/dmytro/.gitignore_global
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
