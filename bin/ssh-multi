@@ -15,10 +15,10 @@ starttmux() {
     local hosts=( $HOSTS )
  
     
-    tmux new-window "ssh ${hosts[0]}"
+    tmux new-window "ssh -t ${hosts[0]}"
     unset hosts[0]; 
     for i in "${hosts[@]}"; do
-    	tmux split-window -h  "ssh $i"
+    	tmux split-window -h  "ssh -t $i"
     	tmux select-layout tiled > /dev/null
     done
     tmux select-pane -t 0
