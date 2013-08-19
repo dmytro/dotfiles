@@ -1,4 +1,4 @@
-personal_ws-1.1 en 71 
+personal_ws-1.1 en 72 
 login
 exnvironments
 STDOUT
@@ -9,12 +9,12 @@ Rubygems
 ubuntu
 JSON
 namespace
+UI
 banalizer
-Banalizer
+CLI
 RESTful
 RESTFul
 javascript
-CLI
 github
 SATA
 netboot
@@ -70,3 +70,4 @@ ERB
 Kovalov
 HOWTO
 params
+TTL

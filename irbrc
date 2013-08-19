@@ -35,6 +35,11 @@ IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb_history"
 
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 
+require 'rubygems'
+require 'pry'
+Pry.start
+exit
+
 %w[rubygems looksee/shortcuts].each do |gem|
   begin
     require gem
