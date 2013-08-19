@@ -323,4 +323,9 @@
 ;; (textmate-mode)
 
 (require 'haml-mode)
+(require 'sass-mode)
+(require 'scss-mode)
 
+
+;;; Server
+(server-start)
