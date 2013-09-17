@@ -100,7 +100,7 @@ I don't think this has any restrictions.")
 
 (defun rhtml-erb-delim-type (start-delim)
   "Return `exec', `out', `comment' or nil dependin on the type of delimeter this is."
-  (flet ((match? (regex)
+  (cl-flet ((match? (regex)
                  (eq (string-match regex start-delim) 0)))
     (cond ((match? rhtml-erb-exec-tag-open-re)
            'exec)

@@ -258,7 +258,7 @@
 ;;; (load "/Users/dmytro/.lisp/jekyll/jekyll-mumamo.el")
 ;;; (load "/Users/dmytro/.lisp/jekyll/jekyll.el")
 
-(kill-buffer "*scratch*") ;; Kill default scratch buffer
+(setq initial-scratch-message nil)
 
 ;;; Hangs
 ;;; (require 'tramp)
@@ -298,10 +298,10 @@
 ;;; 
 ;;; Nagios mode 
 ;;; http://michael.orlitzky.com/code/nagios-mode.php
-(require 'nagios-mode)
-(setq auto-mode-alist
-    (append (list '("\\.cfg$" . nagios-mode))
-      auto-mode-alist))
+;; (require 'nagios-mode)
+;; (setq auto-mode-alist
+;;     (append (list '("\\.cfg$" . nagios-mode))
+;;       auto-mode-alist))
 
 ;;    ⌘T - Go to File
 ;;  ⇧⌘T - Go to Symbol

@@ -24,7 +24,7 @@
 ;;; helpers for rinari-find-view
 (defun rinari-name-components (name)
   (let ((case-fold-search nil))
-	(labels ((rnc (in)
+	(cl-labels ((rnc (in)
 			(let ((ind (string-match "\\([A-Z][a-z0-9]+\\)\\([A-Z:]\\)" name in)))
 			  (if (eq ind nil)
 			      nil

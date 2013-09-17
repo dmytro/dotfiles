@@ -127,7 +127,7 @@ This scans the buffer: the initial point is used and altered."
 (defun elunit-generate-stale-defsuite (suite existing)
   "EXISTING should be an ALIST of (function . (start . end))"
   (let ((out ""))
-    (flet ((+write (text) (setq out (concat out text))))
+    (cl-flet ((+write (text) (setq out (concat out text))))
       (+write ";;; == Stale Suite ==\n")
       (+write ";; No source specified to use this suite.\n")
       (+write ";; One or more tests may also be stale.\n")
@@ -141,7 +141,7 @@ This scans the buffer: the initial point is used and altered."
 (defun elunit-generate-defsuite (suite to-test existing)
   "Returns a string."
   (let ((out ""))
-    (flet ((+write (text) (setq out (concat out text))))
+    (cl-flet ((+write (text) (setq out (concat out text))))
       (+write ";;; == Automatically Generated/Updated ==\n")
       (+write (format "(defsuite %S\n\n" suite))
       (dolist (function to-test)
