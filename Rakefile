@@ -63,7 +63,9 @@ namespace :iterm do
     desc "Load global key mapping from file to iTerm2 defaults"
     task :import do
       data = File.read keys rescue "File does not exist: #{keys}"
-      sh "defaults read #{pref} #{key} \"#{data}\""
+      # data = File.read keys rescue "File does not exist: #{keys}"
+
+      sh "defaults write #{pref} #{key} \'#{data}\'"
     end
   end
 end
