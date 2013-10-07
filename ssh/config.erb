@@ -1,9 +1,9 @@
 # vi:noai:nosm:tw=76 ts=4 sw=4
 # From  http://blogs.perl.org/users/smylers/2011/08/ssh-productivity-tips.html
 StrictHostKeyChecking no
-ControlMaster auto
-ControlPath /tmp/ssh_mux_%h_%p_%r
-ControlPersist 6h
+#ControlMaster auto
+#ControlPath /tmp/ssh_mux_%h_%p_%r
+#ControlPersist 6h
 ForwardAgent yes
 GSSAPIAuthentication no
 # 
@@ -23,11 +23,17 @@ Host heroku.com
     IdentityFile ~/.ssh/heroku
 
 Host github.com gist.github.com
+    ControlMaster auto
+    ControlPath /tmp/ssh_mux_%h_%p_%r
+    ControlPersist 6h
     HostName github.com
     IdentityFile ~/.ssh/github
     User git
 
 Host viy
+    ControlMaster auto
+    ControlPath /tmp/ssh_mux_%h_%p_%r
+    ControlPersist 6h
     HostName viy.sakae
     IdentityFile ~/.ssh/svaroh
     User dk
