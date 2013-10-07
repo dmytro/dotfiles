@@ -70,9 +70,9 @@
 (set-foreground-color "navy")
 
 (setq truncate-partial-width-windows 'nil)
-(scroll-bar-mode 'nil)
-(tool-bar-mode 'nil)
-(menu-bar-mode 'nil)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
 (setq column-number-mode t) ;; Show column numbers
 (setq line-number-mode 1) ;; Show line numbers
 (setq-default indent-tabs-mode nil) ;; Use spaces for tabs
@@ -178,6 +178,7 @@
 (add-to-list 'auto-mode-alist '("Gemfile"  . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile"  . ruby-mode))
 (add-to-list 'auto-mode-alist '("Cheffile"  . ruby-mode))
+(add-to-list 'auto-mode-alist '("Capfile"  . ruby-mode))
  
 ;; Rinari Mode (Rails)
 (add-to-list 'load-path "~/.lisp/rinari")
@@ -298,10 +299,10 @@
 ;;; 
 ;;; Nagios mode 
 ;;; http://michael.orlitzky.com/code/nagios-mode.php
-;; (require 'nagios-mode)
-;; (setq auto-mode-alist
-;;     (append (list '("\\.cfg$" . nagios-mode))
-;;       auto-mode-alist))
+(require 'nagios-mode)
+(setq auto-mode-alist
+    (append (list '("\\.cfg$" . nagios-mode))
+      auto-mode-alist))
 
 ;;    ⌘T - Go to File
 ;;  ⇧⌘T - Go to Symbol
