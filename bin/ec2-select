@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+ec2_environment=$1
+
+[ -z ${ec2_environment} ] && { echo "usage $0 <env>"; exit 1; }
+
+eval $(ruby -ryaml -e "data=YAML.load_file(File.expand_path('~/.ec2/keys.yml'))['${ec2_environment}']; exit unless data; data.keys.map { |x| print \"export #{x}=#{data[x]}\n\"}")
