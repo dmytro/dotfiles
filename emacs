@@ -1,3 +1,4 @@
+;;; -*- mode: lisp;  -*-
 (setq load-path (append '("~/.lisp") load-path))
 
 
@@ -72,7 +73,7 @@
 (setq truncate-partial-width-windows 'nil)
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
-(menu-bar-mode 0)
+;(menu-bar-mode 0)
 (setq column-number-mode t) ;; Show column numbers
 (setq line-number-mode 1) ;; Show line numbers
 (setq-default indent-tabs-mode nil) ;; Use spaces for tabs
@@ -84,9 +85,6 @@
 
 (global-font-lock-mode t)
 (setq font-lock-maximum-decoration t)
-
-(setq auto-save-list-file-prefix (concat "/tmp/." (user-login-name) "-emacs-autosave-")) ;; Auto save directory
-
 
 ;;; 2009/03/30
 ;;; http://groups.google.com/group/carbon-emacs/browse_thread/thread/537c1d730453c94f?pli=1
@@ -172,6 +170,7 @@
 
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rb$"   . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$"   . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$"   . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$"   . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
