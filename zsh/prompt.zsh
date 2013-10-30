@@ -22,4 +22,4 @@ zstyle ':vcs_info:*'    nvcsformats   "%f[%n@%m %1~]$ " ""
 zstyle ':vcs_info:*'    actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
 
 PROMPT='${vcs_info_msg_0_}'
-RPROMPT='${vcs_info_msg_1_}'
+RPROMPT='${vcs_info_msg_1_} %F{cyan}$(date +%H:%M:%S)'
