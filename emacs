@@ -43,7 +43,7 @@
 (local-set-key (kbd "M-RET") 'toggle-fullscreen)
 (global-set-key (kbd "M-RET") 'toggle-fullscreen)
 
-;; n X Wndow C-z and C-xC-z are bound to ncofng wndo whch s dsturbnng for me
+;; In X Window C-z and C-xC-z are bound to ncofng wndo whch s dsturbnng for me
 ;;iconify-or-deiconify-frame
 (global-unset-key "\C-z")
 (local-unset-key "\C-z")

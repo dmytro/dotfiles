@@ -6,6 +6,9 @@ StrictHostKeyChecking no
 #ControlPersist 6h
 ForwardAgent yes
 GSSAPIAuthentication no
+#Ciphers arcfour256
+#MACs umac-64@openssh.com
+
 # 
 # Host-only net VirtualBox
 #
@@ -43,6 +46,10 @@ Host viy
 <%= $simply_cubed %>
 
 <%= $swift %>
+
+<%= $irox %>
+
+<%= $spilno %>
 
 #Host 192.168.2.*
 Host *
