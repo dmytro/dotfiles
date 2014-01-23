@@ -1,6 +1,6 @@
 ;;; -*- mode: lisp;  -*-
 (setq load-path (append '("~/.lisp") load-path))
-
+(setq load-path (append '("~/.lisp/ruby-mode") load-path))
 
 ;;;
 ;;; KEYS
