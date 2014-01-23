@@ -323,3 +323,6 @@
 ;; (setq linum-format "%4d\u2502 ")
 (global-hl-line-mode 1)
 (set-face-background hl-line-face "#E0FFE0")
+(set-variable 'show-trailing-whitespace' `t)
+(show-paren-mode)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
