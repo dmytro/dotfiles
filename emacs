@@ -15,12 +15,12 @@
 ;;; http://nex-3.com/posts/45-efficient-window-switching-in-emacs
 
 (defun select-next-window ()
-  "Switch to the next window" 
+  "Switch to the next window"
   (interactive)
   (select-window (next-window)))
 
 (defun select-previous-window ()
-  "Switch to the previous window" 
+  "Switch to the previous window"
   (interactive)
   (select-window (previous-window)))
 
@@ -34,10 +34,8 @@
 (global-set-key [C-down] 'windmove-down)          ; move to downer window
 
 ;;; These are defaults anyway
-(global-set-key [M-right] 'forward-word) 
+(global-set-key [M-right] 'forward-word)
 (global-set-key [M-left]  'backward-word)
-
-
 
 ;;; Full screen mode on/off
 (local-set-key (kbd "M-RET") 'toggle-fullscreen)
@@ -49,7 +47,7 @@
 (local-unset-key "\C-z")
 (global-unset-key "\C-x\C-z")
 (local-unset-key "\C-x\C-z")
-					
+
 				; undo to C-x C-u
 (local-set-key "\C-x\C-u" 'advertised-undo)
 (global-set-key "\C-x\C-u" 'advertised-undo)
@@ -64,7 +62,7 @@
 ;;; ENVIRONMENT/ TOOLBARS / LAYOUT / VIEW
 ;;;
 (setq inhibit-start-screen 1)  ;; do not open *GNU Emacs" buffer
-(setq inhibit-splash-screen 1) 
+(setq inhibit-splash-screen 1)
 (set-cursor-color "red")
 (set-mouse-color "red")
 (set-background-color "ivory")
@@ -100,8 +98,7 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-
-;;;; MODES 
+;;;; MODES
 (setq default-major-mode 'text-mode)
 (add-hook 'text-mode-hook '(lambda () (auto-fill-mode 1)))
 ;;;
@@ -111,13 +108,11 @@
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
-
 ;;;
 ;;; CSS
-;;; 
+;;;
 (autoload 'css-mode "css-mode")
 (setq auto-mode-alist (cons '("\\.css\\'" . css-mode) auto-mode-alist))
-
 
 ;;;
 ;;; PERL
@@ -128,15 +123,15 @@
 (setq auto-mode-alist (append '(("\\.\\([pP][Llm]\\|al\\)$" . cperl-mode))  auto-mode-alist ))
 (setq interpreter-mode-alist (append interpreter-mode-alist '(("miniperl" . cperl-mode))))
 (setq perl-tab-to-comment 't)
-(setq exec-path (append '("/usr/local/bin") exec-path)) 
+(setq exec-path (append '("/usr/local/bin") exec-path))
 
 ;;
 ;; SHELL
-;; 
+;;
 (if (file-exists-p "/bin/bash") (setq explicit-shell-file-name "/bin/bash"))
 (if (file-exists-p "/bin/zsh")  (setq explicit-shell-file-name "/bin/zsh"))
 
-;; 
+;;
 ;; PYTHON
 ;;
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
@@ -156,11 +151,11 @@
 ;;; RUBY
 (require 'ruby-mode)
 (require 'ruby-electric)
- 
+
 (defun ruby-eval-buffer () (interactive)
     "Evaluate the buffer with ruby."
     (shell-command-on-region (point-min) (point-max) "ruby"))
- 
+
 (defun my-ruby-mode-hook ()
   (setq standard-indent 4)
   (pabbrev-mode t)
@@ -178,19 +173,18 @@
 (add-to-list 'auto-mode-alist '("Guardfile"  . ruby-mode))
 (add-to-list 'auto-mode-alist '("Cheffile"  . ruby-mode))
 (add-to-list 'auto-mode-alist '("Capfile"  . ruby-mode))
- 
+
 ;; Rinari Mode (Rails)
 (add-to-list 'load-path "~/.lisp/rinari")
 (add-to-list 'load-path "~/.lisp/rinari/rhtml")
 (require 'rinari)
 
- 
 (defun my-rhtml-mode-hook ()
   (auto-fill-mode -1)
   (flyspell-mode -1)
   (longlines-mode -1))
 (add-hook 'rhtml-mode-hook 'my-rhtml-mode-hook)
- 
+
 (require 'rinari)
 ;;(setq auto-mode-alist (cons '("\\.rhtml\\'" . rhtml-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
@@ -199,7 +193,6 @@
 
 ;;; ----------------------------------------
 ;;; -- Ruby mode
-
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 (custom-set-variables
@@ -219,14 +212,11 @@
   ;; If there is more than one, they won't work right.
  '(default ((t (:stipple nil :background "ivory" :foreground "navy" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :family "apple-monaco")))))
 
-(defun toggle-fullscreen () 
-  (interactive) 
-  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen) 
-                                           nil 
-                                           'fullboth))) 
-; (global-set-key [(meta return)] toggle-fullscreen)
-
-
+(defun toggle-fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
+                                           nil
+                                           'fullboth)))
 (autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 (setq-default puppet-indent-level 4)
@@ -234,7 +224,7 @@
 
 ;;;
 ;;; Cheetah-Mode is for editing snippets in Cobbler
-;;; 
+;;;
 ;;; from here: http://www.emacswiki.org/emacs/CheetahMode
 ;;;
 (define-derived-mode cheetah-mode html-mode "Cheetah"
@@ -250,7 +240,7 @@
   (font-lock-mode 1)
   )
 (setq auto-mode-alist (cons '( "\\.tmpl\\'" . cheetah-mode ) auto-mode-alist ))
-;(setq comment-start "##")  
+;(setq comment-start "##")
 ;(setq comment-end "")
 
 ;;; Disabled - hangs emacs
@@ -263,7 +253,7 @@
 ;;; Hangs
 ;;; (require 'tramp)
 ;;; (setq tramp-default-method "ssh")
-;;; (defadvice tramp-maybe-open-connection 
+;;; (defadvice tramp-maybe-open-connection
 ;;;   (around set-process-connection-type)
 ;;;   "Set process-connection-type to pty."
 ;;;   (let ((process-connection-type 'pty))
@@ -276,12 +266,12 @@
 ;;;
 ;;; Markdown mode
 ;;;
-(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) 
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
-(defun markdown-custom () "markdown-mode-hook" 
+(defun markdown-custom () "markdown-mode-hook"
   (set-variable 'fill-column' 1000)
-  ) 
+  )
 (add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
 
 ;;;
@@ -290,13 +280,13 @@
 
 (require 'textile-mode)
 (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
-(defun textile-custom () "textile-mode-hook" 
+(defun textile-custom () "textile-mode-hook"
   (set-variable 'fill-column' 1000)
-  ) 
+  )
 (add-hook 'textile-mode-hook '(lambda() (textile-custom)))
 
-;;; 
-;;; Nagios mode 
+;;;
+;;; Nagios mode
 ;;; http://michael.orlitzky.com/code/nagios-mode.php
 (require 'nagios-mode)
 (setq auto-mode-alist
