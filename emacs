@@ -63,10 +63,6 @@
 ;;;
 (setq inhibit-start-screen 1)  ;; do not open *GNU Emacs" buffer
 (setq inhibit-splash-screen 1)
-(set-cursor-color "red")
-(set-mouse-color "red")
-(set-background-color "ivory")
-(set-foreground-color "navy")
 
 (setq truncate-partial-width-windows 'nil)
 (scroll-bar-mode 0)
@@ -205,12 +201,6 @@
 
 ;; create the autosave dir if necessary, since emacs won't.
 (make-directory "~/.emacs.d/autosaves/" t)
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "ivory" :foreground "navy" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :family "apple-monaco")))))
 
 (defun toggle-fullscreen ()
   (interactive)
@@ -322,7 +312,27 @@
 
 ;; (setq linum-format "%4d\u2502 ")
 (global-hl-line-mode 1)
-(set-face-background hl-line-face "#E0FFE0")
+; (set-face-background hl-line-face "#E0FFE0")
 (set-variable 'show-trailing-whitespace' `t)
 (show-paren-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;;
+;;; Colors
+;;;
+;; (set-cursor-color "red")
+;; (set-mouse-color "red")
+;; (set-background-color "ivory")
+;; (set-foreground-color "navy")
+;; (custom-set-faces
+;;   ;; custom-set-faces was added by Custom.
+;;   ;; If you edit it by hand, you could mess it up, so be careful.
+;;   ;; Your init file should contain only one such instance.
+;;   ;; If there is more than one, they won't work right.
+;;  '(default ((t (:stipple nil :background "ivory" :foreground "navy" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :family "apple-monaco")))))
+
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-deep-blue)))
