@@ -27,30 +27,30 @@ alias r='rails'
 
 function ss {
   if [ -e script/rails ]; then
-    script/rails server $@
+    bundle exec script/rails server $@
   else
-    script/server $@
+    bundle exec script/server $@
   fi
 }
 function sc {
   if [ -e script/rails ]; then
-    script/rails console $@
+    bundle exec script/rails console $@
   else
-    script/console $@
+    bundle exec script/console $@
   fi
 }
 function sg {
   if [ -e script/rails ]; then
-    script/rails generate $@
+    bundle exec script/rails generate $@
   else
-    script/generate $@
+    bundle exec script/generate $@
   fi
 }
 function sp {
   if [ -e script/rails ]; then
-    script/rails plugin $@
+    bundle exec script/rails plugin $@
   else
-    script/plugin $@
+    bundle exec script/plugin $@
   fi
 }
 
@@ -77,7 +77,7 @@ alias ga='git add'
 alias gl='git log'
 alias gp='git push'
 alias gf='git fetch'
-alias gd='git diff'
+alias gd='git diff --word-diff'
 alias gdw='git diff --color-words'
 alias gm='git merge'
 alias gc='git commit -v'

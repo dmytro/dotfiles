@@ -9,7 +9,7 @@ PS1="[%n@%m %1~]$ "
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 precmd() {
-    vcs_info
+    vcs_info 
 }
 
 setopt prompt_subst

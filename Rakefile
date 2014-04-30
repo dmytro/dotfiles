@@ -1,7 +1,7 @@
 # Modified Ryan Bates' version
-# 
+#
 # Copyright (c) 2009 Ryan Bates
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,11 +25,11 @@ require 'rake'
 require 'erb'
 require 'fileutils'
 
-namespace :ssh do 
-  namespace :config do 
+namespace :ssh do
+  namespace :config do
 
     desc "Generate .ssh/config file from template and includes"
-    task :generate do 
+    task :generate do
       Dir.glob("ssh/include/*").each do |path|
         file = path.split("/").last
         content = File.read path
@@ -45,16 +45,16 @@ namespace :ssh do
   end
 end
 
-namespace :iterm do 
+namespace :iterm do
 
   pref = "~/Library/Preferences/com.googlecode.iterm2"
   namespace :keys do
-    
+
     key  = "GlobalKeyMap"
     keys = "iterm2/#{key}"
 
     directory "iterm2"
-    
+
     desc "Save global key mapping to file"
     task :export => "iterm2" do
       sh "defaults read #{pref} #{key} > #{keys}"
@@ -107,7 +107,7 @@ task :install do
 end
 
 def skip?(file)
-  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup vim ssh iterm2].include?(file)
+  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup ssh iterm2].include?(file)
 end
 
 def replace_file(file)

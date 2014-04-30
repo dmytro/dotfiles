@@ -12,8 +12,9 @@ GSSAPIAuthentication no
 # 
 # Host-only net VirtualBox
 #
-Host 192.168.56.*
-    User root
+Host 192.168.56.* polel
+    User dmytro
+    IdentityFile ~/.ssh/polel
 
 Host ub nagios chef slave
     User ubuntu
@@ -23,13 +24,21 @@ Host ub nagios chef slave
 # Development stuff
 #
 Host heroku.com
-    IdentityFile ~/.ssh/heroku
+IdentityFile ~/.ssh/heroku
 
 Host github.com gist.github.com
     ControlMaster auto
     ControlPath /tmp/ssh_mux_%h_%p_%r
     ControlPersist 6h
     HostName github.com
+    IdentityFile ~/.ssh/github
+    User git
+
+
+Host bitbucket.org
+    ControlMaster auto
+    ControlPath /tmp/ssh_mux_%h_%p_%r
+    ControlPersist 6h
     IdentityFile ~/.ssh/github
     User git
 

@@ -7666,6 +7666,20 @@ This builds on `color-theme-jsc-light'."
       (Info-title-2-face ((t (:bold t :family "helv" :weight bold :height 1.44))))
       (Info-title-3-face ((t (:bold t :weight bold :family "helv" :height 1.2))))
       (Info-title-4-face ((t (:bold t :family "helv" :weight bold))))
+      ;;
+      ;; ERB colors
+      ;;
+      (erb-face ((t (:background "#102642" :foreground "#e1faff"))))
+      ;; (erb-delim-face ((t (:inherit erb-face))))
+      (erb-exec-face ((t (:foreground "SeaGreen2"))))
+      (erb-exec-delim-face ((t (:foreground "orange red"))))
+      (erb-out-face ((t (:foreground "#4784FF"))))
+      (erb-out-delim-face ((t (:foreground "orange red"))))
+      (erb-comment-face ((t (:italic t :foreground "CadetBlue" :slant italic))))
+      (erb-comment-delim-face ((t (:italic t :foreground "CadetBlue" :slant italic))))
+      ;; (erb-type-to-face ((t (:inherit erb-face))))
+      ;; (erb-type-to-delim-face ((t (:inherit erb-face))))
+
       (bold ((t (:bold t :weight bold))))
       (bold-italic ((t (:italic t :bold t :slant italic :weight bold))))
       (border ((t (:background "black"))))

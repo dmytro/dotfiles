@@ -1,5 +1,5 @@
 syn on
 set number
-colorscheme evening
-set ts=4
+colorscheme desert
+set ts=2
 set expandtab

@@ -1,9 +1,4 @@
 
-sc () {
-cd ~/Development/SimplyCubed
-tmux source-file ~/.tmux/SimplyCubed
-}
-
 tmux_pwd () {
 
     [ -z "${TMUX}" ] && return

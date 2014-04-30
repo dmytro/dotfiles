@@ -48,7 +48,7 @@
 (global-unset-key "\C-x\C-z")
 (local-unset-key "\C-x\C-z")
 
-				; undo to C-x C-u
+;;; undo to C-x C-u
 (local-set-key "\C-x\C-u" 'advertised-undo)
 (global-set-key "\C-x\C-u" 'advertised-undo)
 (global-set-key "\M-_" 'advertised-undo) ; Meta-_
@@ -152,11 +152,27 @@
     "Evaluate the buffer with ruby."
     (shell-command-on-region (point-min) (point-max) "ruby"))
 
+;; (defun my-ruby-mode-hook ()
+;;   (delete-selection-mode t)
+;;   ;; (require 'align)
+;;   ;; (setq align-mode-rules-list
+;;   ;;       '((ruby-comma
+;;   ;;          (regexp . ",\\(\\s-*\\)")
+;;   ;;          (group  . 1)
+;;   ;;          (repeat . t))
+;;   ;;         (ruby-hash
+;;   ;;          (regexp . "\\(\\s-*\\)=>")
+;;   ;;          (group  . 1)
+;;   ;;          (repeat . t))))
+;;   )
+
 (defun my-ruby-mode-hook ()
   (setq standard-indent 4)
   (pabbrev-mode t)
   (ruby-electric-mode t)
-  (define-key ruby-mode-map "\C-c\C-a" 'ruby-eval-buffer))
+  (define-key ruby-mode-map "\C-c\C-a" 'ruby-eval-buffer)
+  (delete-selection-mode t)
+  )
 (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
 
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
@@ -186,6 +202,28 @@
 (setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
 
 (add-hook 'ruby-mode-hook (lambda () (ruby-electric-mode t)))
+
+(defadvice ruby-indent-line (after line-up-args activate)
+  (let (indent prev-indent arg-indent)
+    (save-excursion
+      (back-to-indentation)
+      (when (zerop (car (syntax-ppss)))
+        (setq indent (current-column))
+        (skip-chars-backward " \t\n")
+        (when (eq ?, (char-before))
+          (ruby-backward-sexp)
+          (back-to-indentation)
+          (setq prev-indent (current-column))
+          (skip-syntax-forward "w_.")
+          (skip-chars-forward " ")
+          (setq arg-indent (current-column)))))
+    (when prev-indent
+      (let ((offset (- (current-column) indent)))
+        (cond ((< indent prev-indent)
+               (indent-line-to prev-indent))
+              ((= indent prev-indent)
+               (indent-line-to arg-indent)))
+        (when (> offset 0) (forward-char offset))))))
 
 ;;; ----------------------------------------
 ;;; -- Ruby mode
@@ -320,19 +358,33 @@
 ;;;
 ;;; Colors
 ;;;
-;; (set-cursor-color "red")
-;; (set-mouse-color "red")
-;; (set-background-color "ivory")
-;; (set-foreground-color "navy")
-;; (custom-set-faces
-;;   ;; custom-set-faces was added by Custom.
-;;   ;; If you edit it by hand, you could mess it up, so be careful.
-;;   ;; Your init file should contain only one such instance.
-;;   ;; If there is more than one, they won't work right.
-;;  '(default ((t (:stipple nil :background "ivory" :foreground "navy" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :family "apple-monaco")))))
 
 (require 'color-theme)
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
      (color-theme-deep-blue)))
+;;;
+;;; Switch buffers
+;;; --------------------------------------------
+(global-set-key "\C-x\C-b" 'buffer-menu) ; Open buffer list in the same buffer, intead of other
+(iswitchb-mode 1)
+(setq iswitchb-buffer-ignore '("^\\*"))
+;; http://www.emacswiki.org/emacs/IswitchBuffers
+(defun iswitchb-local-keys ()
+      (mapc (lambda (K)
+	      (let* ((key (car K)) (fun (cdr K)))
+    	        (define-key iswitchb-mode-map (edmacro-parse-keys key) fun)))
+	    '(("<right>" . iswitchb-next-match)
+	      ("<left>"  . iswitchb-prev-match)
+	      ("<up>"    . ignore             )
+	      ("<down>"  . ignore             ))))
+
+(add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys)
+
+(global-visual-line-mode 1) ; 1 for on, 0 for off.
+
+;; other window - disable split
+(setq split-width-threshold nil)
+(setq split-height-threshold nil)
+(put 'dired-find-alternate-file 'disabled nil)

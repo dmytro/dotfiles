@@ -107,12 +107,12 @@ colorization."
 ;; ERB faces - each type of ERB tag has it's own face properties
 
 (defface erb-face
-  `((t (:background "snow2")))
+  `((t (:background "#102642" :foreground "#e1faff")))
   "Default inherited face for ERB tag body"
   :group 'rhtml-faces)
 
 (defface erb-delim-face
-  `((t (:background "snow3")))
+  `((t (:background "#102642" :foreground "#e1faff")))
   "Default inherited face for ERB tag delimeters"
   :group 'rhtml-faces)
 
@@ -122,27 +122,27 @@ colorization."
   :group 'rhtml-faces)
 
 (defface erb-exec-delim-face
-  `((t (:inherit erb-delim-face :weight bold)))
+  `((t (:inherit erb-delim-face :weight bold :foreground "orange red")))
   "Basic face for Ruby embedded into HTML"
   :group 'rhtml-faces)
 
 (defface erb-out-face
-  `((t (:inherit erb-face)))
+  `((t (:inherit erb-face )))
   "Basic face for Ruby embedded into HTML"
   :group 'rhtml-faces)
 
 (defface erb-out-delim-face
-  `((t (:inherit erb-delim-face :weight bold :foreground "darkred")))
+  `((t (:inherit erb-delim-face :weight bold :foreground "orange red")))
   "Basic face for Ruby embedded into HTML"
   :group 'rhtml-faces)
 
 (defface erb-comment-face
-  `((t (:inherit erb-face :weight bold :foreground "darkgreen")))
+  `((t (:inherit erb-face :weight bold :foreground "green")))
   "Basic face for Ruby embedded into HTML"
   :group 'rhtml-faces)
 
 (defface erb-comment-delim-face
-  `((t (:inherit erb-delim-face :weight bold :foreground "darkgreen")))
+  `((t (:inherit erb-delim-face :weight bold :foreground "green")))
   "Basic face for Ruby embedded into HTML"
   :group 'rhtml-faces)
 

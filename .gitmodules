@@ -22,3 +22,6 @@
 [submodule "zsh/completions"]
 	path = zsh/completions
 	url = git@github.com:dmytro/zsh-compdef.git
+[submodule "vim/vim-ruby"]
+	path = vim/bundle/vim-ruby
+	url = https://github.com/vim-ruby/vim-ruby
