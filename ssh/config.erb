@@ -9,7 +9,7 @@ GSSAPIAuthentication no
 #Ciphers arcfour256
 #MACs umac-64@openssh.com
 
-# 
+#
 # Host-only net VirtualBox
 #
 Host 192.168.56.* polel
@@ -29,7 +29,7 @@ IdentityFile ~/.ssh/heroku
 Host github.com gist.github.com
     ControlMaster auto
     ControlPath /tmp/ssh_mux_%h_%p_%r
-    ControlPersist 6h
+<% if @controlpersist -%>    ControlPersist 6h <% end %>
     HostName github.com
     IdentityFile ~/.ssh/github
     User git
@@ -38,14 +38,14 @@ Host github.com gist.github.com
 Host bitbucket.org
     ControlMaster auto
     ControlPath /tmp/ssh_mux_%h_%p_%r
-    ControlPersist 6h
+<% if @controlpersist -%>    ControlPersist 6h <% end %>
     IdentityFile ~/.ssh/github
     User git
 
 Host viy
     ControlMaster auto
     ControlPath /tmp/ssh_mux_%h_%p_%r
-    ControlPersist 6h
+<% if @controlpersist -%>    ControlPersist 6h <% end %>
     HostName viy.sakae
     IdentityFile ~/.ssh/svaroh
     User dk
@@ -65,4 +65,3 @@ Host *
     IdentitiesOnly yes
     IdentityFile ~/.ssh/svaroh
     IdentityFile ~/.ssh/id_dsa
-
