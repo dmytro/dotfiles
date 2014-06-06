@@ -1,6 +1,52 @@
-;;; -*- mode: lisp;  -*-
+;; -*- mode: Lisp; fill-column: 75; comment-column: 50; -*-
+;;; ==================================================================
+;;;  Install required packages
+;;;
+(defvar prelude-packages
+
+  '(coffee-mode gist haml-mode inf-ruby markdown-mode paredit ruby-mode
+                ruby-electric rinari flymake-ruby json-mode textile-mode
+                projectile python sass-mode rainbow-mode scss-mode
+                sass-mode css-mode slim-mode color-theme
+                volatile-highlights yaml-mode yari )
+
+  "A list of packages to ensure are installed at launch.")
+;; --------------------------------------------
+
+(require 'cl)                                     ;for loop macro
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" .
+               "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+
+;
+(defun prelude-packages-installed-p ()
+ (loop for p in prelude-packages
+       when (not (package-installed-p p)) do (return nil)
+       finally (return t)))
+;
+(unless (prelude-packages-installed-p)
+ ;; check for new packages (package versions)
+ (message "%s" "Emacs Prelude is now refreshing its package database...")
+ (package-refresh-contents)
+ (message "%s" " done.")
+ ;; install the missing packages
+ (dolist (p prelude-packages)
+   (when (not (package-installed-p p))
+     (package-install p))))
+
+(provide 'prelude-packages)
+;;; ==================================================================
+;;; prelude-packages.el ends here
+
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
 (setq load-path (append '("~/.lisp") load-path))
-(setq load-path (append '("~/.lisp/ruby-mode") load-path))
 
 ;;;
 ;;; KEYS
@@ -100,14 +146,14 @@
 ;;;
 ;;; YAML
 ;;;
-(require 'yaml-mode)
+;(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
 ;;;
 ;;; CSS
 ;;;
-(autoload 'css-mode "css-mode")
+;(autoload 'css-mode "css-mode")
 (setq auto-mode-alist (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
 ;;;
@@ -145,8 +191,8 @@
 
 ;;; ============================================================
 ;;; RUBY
-(require 'ruby-mode)
-(require 'ruby-electric)
+;; (require 'ruby-mode)
+;; (require 'ruby-electric)
 
 (defun ruby-eval-buffer () (interactive)
     "Evaluate the buffer with ruby."
@@ -165,6 +211,7 @@
 ;;   ;;          (group  . 1)
 ;;   ;;          (repeat . t))))
 ;;   )
+
 
 (defun my-ruby-mode-hook ()
   (setq standard-indent 4)
@@ -225,6 +272,33 @@
                (indent-line-to arg-indent)))
         (when (> offset 0) (forward-char offset))))))
 
+(setq ruby-deep-indent-paren nil)
+
+(require 'flymake-ruby)                 ; Syntax checker for Ruby
+(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+
+;; Projectile
+(projectile-global-mode)
+;; (add-hook 'ruby-mode-hook 'projectile-on)
+;; Display ido results vertically, rather than horizontally
+(setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
+(defun ido-disable-line-truncation () (set (make-local-variable 'truncate-lines) nil))
+(add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-truncation)
+  (defun ido-define-keys () ;; C-n/p is more intuitive in vertical layout
+    (define-key ido-completion-map (kbd "Down") 'ido-next-match)
+    (define-key ido-completion-map (kbd "Up") 'ido-prev-match)
+    )
+(add-hook 'ido-setup-hook 'ido-define-keys)
+
+(global-set-key (kbd "C-x C-d") 'projectile-dired)
+
+(add-hook 'projectile-mode-hook 'projectile-rails-on)
+
+;;  IDO mode
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+(setq ido-file-extensions-order '(".rb" ".erb" ".yml" ))
 ;;; ----------------------------------------
 ;;; -- Ruby mode
 
@@ -249,7 +323,6 @@
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 (setq-default puppet-indent-level 4)
 (setq-default puppet-indent-tabs-mode nil)
-
 ;;;
 ;;; Cheetah-Mode is for editing snippets in Cobbler
 ;;;
@@ -316,10 +389,10 @@
 ;;;
 ;;; Nagios mode
 ;;; http://michael.orlitzky.com/code/nagios-mode.php
-(require 'nagios-mode)
-(setq auto-mode-alist
-    (append (list '("\\.cfg$" . nagios-mode))
-      auto-mode-alist))
+;; (require 'nagios-mode)
+;; (setq auto-mode-alist
+;;     (append (list '("\\.cfg$" . nagios-mode))
+;;       auto-mode-alist))
 
 ;;    ⌘T - Go to File
 ;;  ⇧⌘T - Go to Symbol
@@ -340,9 +413,10 @@
 ;; (require 'textmate)
 ;; (textmate-mode)
 
-(require 'haml-mode)
-(require 'sass-mode)
-(require 'scss-mode)
+;; (require 'haml-mode)
+;; (require 'sass-mode)
+;; (require 'scss-mode)
+;; (require 'slim-mode)
 
 
 ;;; Server
