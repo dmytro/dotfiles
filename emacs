@@ -5,10 +5,10 @@
 (defvar prelude-packages
 
   '(coffee-mode gist haml-mode inf-ruby markdown-mode paredit ruby-mode
-                ruby-electric rinari flymake-ruby json-mode textile-mode
-                projectile python sass-mode rainbow-mode scss-mode
-                sass-mode css-mode slim-mode color-theme
-                volatile-highlights yaml-mode yari )
+                rhtml-mode ruby-electric rinari flymake-ruby json-mode
+                textile-mode projectile python sass-mode rainbow-mode
+                scss-mode sass-mode css-mode slim-mode color-theme
+                volatile-highlights yaml-mode yari snippet pabbrev )
 
   "A list of packages to ensure are installed at launch.")
 ;; --------------------------------------------
@@ -418,7 +418,7 @@
 ;; (require 'scss-mode)
 ;; (require 'slim-mode)
 
-
+(require 'snippet)
 ;;; Server
 (server-start)
 
