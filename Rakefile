@@ -25,18 +25,25 @@ require 'rake'
 require 'erb'
 require 'fileutils'
 
+
+
 namespace :ssh do
   namespace :config do
 
     desc "Generate .ssh/config file from template and includes"
     task :generate do
+      ssh = %x'ssh -V 2>&1'
+            .chomp
+            .sub(/^.*_(\d\.\d).*$/, '\1').to_f
+      @controlpersist = ssh < 5.6 ? false : true
+
       Dir.glob("ssh/include/*").each do |path|
         file = path.split("/").last
-        content = File.read path
+        content = ERB.new(File.read(path),0, "-").result()
         eval "$#{file} = '#{content}'"
       end
       File.open 'ssh/config', 'w' do |f|
-        f.print ERB.new(File.read("ssh/config.erb")).result(binding)
+        f.print ERB.new(File.read("ssh/config.erb"), 0, "-").result(binding)
         f.close
       end
       File.chmod 0600, "ssh/config"
@@ -107,7 +114,7 @@ task :install do
 end
 
 def skip?(file)
-  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup ssh iterm2].include?(file)
+  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup ssh iterm2 lisp].include?(file)
 end
 
 def replace_file(file)
