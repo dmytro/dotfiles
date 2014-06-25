@@ -4,11 +4,12 @@
 ;;;
 (defvar prelude-packages
 
-  '(coffee-mode gist haml-mode inf-ruby markdown-mode paredit ruby-mode
+  '(coffee-mode gist haml-mode inf-ruby markdown-mode ruby-mode smartparens
                 rhtml-mode ruby-electric rinari flymake-ruby json-mode
                 textile-mode projectile python sass-mode rainbow-mode
                 scss-mode sass-mode css-mode slim-mode color-theme
-                volatile-highlights yaml-mode yari snippet pabbrev )
+                volatile-highlights yaml-mode yari snippet pabbrev ag
+                enh-ruby-mode autopair flex-autopair)
 
   "A list of packages to ensure are installed at launch.")
 ;; --------------------------------------------
@@ -146,7 +147,7 @@
 ;;;
 ;;; YAML
 ;;;
-;(require 'yaml-mode)
+                                                  ;(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
@@ -194,44 +195,21 @@
 ;; (require 'ruby-mode)
 ;; (require 'ruby-electric)
 
-(defun ruby-eval-buffer () (interactive)
-    "Evaluate the buffer with ruby."
-    (shell-command-on-region (point-min) (point-max) "ruby"))
+(load-file "~/.lisp/configs/enh-ruby-config.el")
+(load-file "~/.lisp/configs/autocomplete.el")
+;(load-file "~/.lisp/configs/ruby-mode-config.el")
 
-;; (defun my-ruby-mode-hook ()
-;;   (delete-selection-mode t)
-;;   ;; (require 'align)
-;;   ;; (setq align-mode-rules-list
-;;   ;;       '((ruby-comma
-;;   ;;          (regexp . ",\\(\\s-*\\)")
-;;   ;;          (group  . 1)
-;;   ;;          (repeat . t))
-;;   ;;         (ruby-hash
-;;   ;;          (regexp . "\\(\\s-*\\)=>")
-;;   ;;          (group  . 1)
-;;   ;;          (repeat . t))))
-;;   )
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(smartparens-global-mode)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
 
-
-(defun my-ruby-mode-hook ()
-  (setq standard-indent 4)
-  (pabbrev-mode t)
-  (ruby-electric-mode t)
-  (define-key ruby-mode-map "\C-c\C-a" 'ruby-eval-buffer)
-  (delete-selection-mode t)
-  )
-(add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
-
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rb$"   . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$"   . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$"   . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$"   . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile"  . ruby-mode))
-(add-to-list 'auto-mode-alist '("Guardfile"  . ruby-mode))
-(add-to-list 'auto-mode-alist '("Cheffile"  . ruby-mode))
-(add-to-list 'auto-mode-alist '("Capfile"  . ruby-mode))
+;; (require 'ruby-block)
+;; (ruby-block-mode t)
+;; (setq ruby-block-highlight-toggle 'overlay)
 
 ;; Rinari Mode (Rails)
 (add-to-list 'load-path "~/.lisp/rinari")
@@ -248,34 +226,6 @@
 ;;(setq auto-mode-alist (cons '("\\.rhtml\\'" . rhtml-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
 
-(add-hook 'ruby-mode-hook (lambda () (ruby-electric-mode t)))
-
-(defadvice ruby-indent-line (after line-up-args activate)
-  (let (indent prev-indent arg-indent)
-    (save-excursion
-      (back-to-indentation)
-      (when (zerop (car (syntax-ppss)))
-        (setq indent (current-column))
-        (skip-chars-backward " \t\n")
-        (when (eq ?, (char-before))
-          (ruby-backward-sexp)
-          (back-to-indentation)
-          (setq prev-indent (current-column))
-          (skip-syntax-forward "w_.")
-          (skip-chars-forward " ")
-          (setq arg-indent (current-column)))))
-    (when prev-indent
-      (let ((offset (- (current-column) indent)))
-        (cond ((< indent prev-indent)
-               (indent-line-to prev-indent))
-              ((= indent prev-indent)
-               (indent-line-to arg-indent)))
-        (when (> offset 0) (forward-char offset))))))
-
-(setq ruby-deep-indent-paren nil)
-
-(require 'flymake-ruby)                 ; Syntax checker for Ruby
-(add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
 ;; Projectile
 (projectile-global-mode)
@@ -299,6 +249,21 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 (setq ido-file-extensions-order '(".rb" ".erb" ".yml" ))
+
+
+;; Missing from ruby-mode.el, see https://groups.google.com/group/emacs-on-rails/msg/565fba8263233c28
+(defun ruby-insert-end ()
+  "Insert \"end\" at point and reindent current line."
+  (interactive)
+  (insert "end")
+  (ruby-indent-line t)
+  (end-of-line))
+
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (require 'ruby-electric)
+            (ruby-electric-mode t)))
+
 ;;; ----------------------------------------
 ;;; -- Ruby mode
 
@@ -417,6 +382,25 @@
 ;; (require 'sass-mode)
 ;; (require 'scss-mode)
 ;; (require 'slim-mode)
+(defun disable-smartparens ()
+  (smartparens-mode 0)
+  )
+
+(add-hook 'slim-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
+
+;; Electic indent - disable indenting previos line
+(add-hook 'yaml-mode-hook
+          '(lambda ()
+             (define-key yaml-mode-map "\C-m" 'newline-and-indent))
+          )
+
+(add-hook 'slim-mode-hook
+          '(lambda ()
+             (define-key slim-mode-map "\C-m" 'newline-and-indent))
+          )
+
+;;  SASS mode
+(setq scss-compile-at-save 'nil)
 
 (require 'snippet)
 ;;; Server
@@ -425,8 +409,8 @@
 ;; (setq linum-format "%4d\u2502 ")
 (global-hl-line-mode 1)
 ; (set-face-background hl-line-face "#E0FFE0")
-(set-variable 'show-trailing-whitespace' `t)
-(show-paren-mode)
+(custom-set-variables '(show-trailing-whitespace t))
+;; (show-paren-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;;
@@ -462,3 +446,24 @@
 (setq split-width-threshold nil)
 (setq split-height-threshold nil)
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; http://stackoverflow.com/questions/11623189/how-to-bind-keys-to-indent-unindent-region-in-emacs/11624677#11624677
+;;
+(defun my-indent-region (N)
+  (interactive "p")
+  (if (use-region-p)
+      (progn (indent-rigidly (region-beginning) (region-end) (* N 2))
+             (setq deactivate-mark nil))
+    (self-insert-command N)))
+
+(defun my-unindent-region (N)
+  (interactive "p")
+  (if (use-region-p)
+      (progn (indent-rigidly (region-beginning) (region-end) (* N -2))
+             (setq deactivate-mark nil))
+    (self-insert-command N)))
+
+(sp-pair "<" nil :actions :rem)
+(sp-pair ">" nil :actions :rem)
+(global-set-key ">" 'my-indent-region)
+(global-set-key "<" 'my-unindent-region)

@@ -7671,6 +7671,10 @@ This builds on `color-theme-jsc-light'."
       ;;
       (erb-face ((t (:background "#102642" :foreground "#e1faff"))))
       ;; (erb-delim-face ((t (:inherit erb-face))))
+      ;; erm-darken-color
+      (enh-ruby-op-face ((t (:foreground "SeaGreen3"))))
+
+      (erb-exec-face ((t (:foreground "SeaGreen2"))))
       (erb-exec-face ((t (:foreground "SeaGreen2"))))
       (erb-exec-delim-face ((t (:foreground "orange red"))))
       (erb-out-face ((t (:foreground "#4784FF"))))
