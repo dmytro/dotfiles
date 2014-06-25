@@ -17,6 +17,7 @@ unset config_file # clean-up
 which dircolors > /dev/null && eval $(dircolors -b ~/.dircolors)
 
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+[[ -s /usr/local/rvm/scripts/rvm ]] && source /usr/local/rvm/scripts/rvm
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
