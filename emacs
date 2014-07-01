@@ -1,5 +1,5 @@
 ;; -*- mode: Lisp; fill-column: 75; comment-column: 50; -*-
-;;; ==================================================================
+;;;                                                                                       ==================================================================
 ;;;  Install required packages
 ;;;
 (defvar prelude-packages
@@ -9,7 +9,7 @@
                 textile-mode projectile python sass-mode rainbow-mode
                 scss-mode sass-mode css-mode slim-mode color-theme
                 volatile-highlights yaml-mode yari snippet pabbrev ag
-                enh-ruby-mode autopair flex-autopair)
+                enh-ruby-mode autopair flex-autopair magit exec-path-from-shell)
 
   "A list of packages to ensure are installed at launch.")
 ;; --------------------------------------------
@@ -41,11 +41,14 @@
      (package-install p))))
 
 (provide 'prelude-packages)
-;;; ==================================================================
+;;;                                                                                       ==================================================================
 ;;; prelude-packages.el ends here
 
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 (setq load-path (append '("~/.lisp") load-path))
 
@@ -128,7 +131,7 @@
 (setq font-lock-maximum-decoration t)
 
 ;;; 2009/03/30
-;;; http://groups.google.com/group/carbon-emacs/browse_thread/thread/537c1d730453c94f?pli=1
+;;; http://groups.google.com/group/carbon-emacs/browse_thread/thread/537c1d730453c94f?pli =1
 (setq mac-command-modifier 'meta)
 (setq x-select-enable-clipboard t)
 (setq mac-option-modifier 'meta)
@@ -166,7 +169,7 @@
 (setq auto-mode-alist (append '(("\\.\\([pP][Llm]\\|al\\)$" . cperl-mode))  auto-mode-alist ))
 (setq interpreter-mode-alist (append interpreter-mode-alist '(("miniperl" . cperl-mode))))
 (setq perl-tab-to-comment 't)
-(setq exec-path (append '("/usr/local/bin") exec-path))
+;; (setq exec-path (append '("/usr/local/bin") exec-path))
 
 ;;
 ;; SHELL
@@ -190,13 +193,11 @@
 (setq html-helper-use-expert-menu 't) ; full menu
 					;Apr 21 1999
 
-;;; ============================================================
+;;;                                                                                       ============================================================
 ;;; RUBY
 ;; (require 'ruby-mode)
 ;; (require 'ruby-electric)
 
-(load-file "~/.lisp/configs/enh-ruby-config.el")
-(load-file "~/.lisp/configs/autocomplete.el")
 ;(load-file "~/.lisp/configs/ruby-mode-config.el")
 
 (require 'smartparens-config)
@@ -227,28 +228,32 @@
 (setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
 
 
-;; Projectile
-(projectile-global-mode)
-;; (add-hook 'ruby-mode-hook 'projectile-on)
-;; Display ido results vertically, rather than horizontally
-(setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
-(defun ido-disable-line-truncation () (set (make-local-variable 'truncate-lines) nil))
-(add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-truncation)
-  (defun ido-define-keys () ;; C-n/p is more intuitive in vertical layout
-    (define-key ido-completion-map (kbd "Down") 'ido-next-match)
-    (define-key ido-completion-map (kbd "Up") 'ido-prev-match)
-    )
-(add-hook 'ido-setup-hook 'ido-define-keys)
+;; ;; Projectile
+;; (projectile-global-mode)
+;; ;; (add-hook 'ruby-mode-hook 'projectile-on)
+;; ;; Display ido results vertically, rather than horizontally
+;; (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
+;; (defun ido-disable-line-truncation () (set (make-local-variable 'truncate-lines) nil))
+;; (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-truncation)
+;;   (defun ido-define-keys () ;; C-n/p is more intuitive in vertical layout
+;;     (define-key ido-completion-map (kbd "Down") 'ido-next-match)
+;;     (define-key ido-completion-map (kbd "Up") 'ido-prev-match)
+;;     )
+;; (add-hook 'ido-setup-hook 'ido-define-keys)
 
-(global-set-key (kbd "C-x C-d") 'projectile-dired)
+;; (global-set-key (kbd "C-x C-d") 'projectile-dired)
 
-(add-hook 'projectile-mode-hook 'projectile-rails-on)
+;; (add-hook 'projectile-mode-hook 'projectile-rails-on)
 
-;;  IDO mode
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
-(setq ido-file-extensions-order '(".rb" ".erb" ".yml" ))
+;; ;;  IDO mode
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-everywhere t)
+;; (ido-mode 1)
+;; (setq ido-file-extensions-order '(".rb" ".erb" ".yml" ))
+;; (defcustom projectile-rails-keymap-prefix (kbd "M-r")
+;;   "`projectile-rails-mode' keymap prefix."
+;;   :group 'projectile-rails
+;;   :type 'string)
 
 
 ;; Missing from ruby-mode.el, see https://groups.google.com/group/emacs-on-rails/msg/565fba8263233c28
@@ -387,6 +392,7 @@
   )
 
 (add-hook 'slim-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
+(add-hook 'yaml-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
 
 ;; Electic indent - disable indenting previos line
 (add-hook 'yaml-mode-hook
@@ -467,3 +473,14 @@
 (sp-pair ">" nil :actions :rem)
 (global-set-key ">" 'my-indent-region)
 (global-set-key "<" 'my-unindent-region)
+
+;; Configs
+(load-file "~/.lisp/configs/enh-ruby-config.el")
+(load-file "~/.lisp/configs/autocomplete.el")
+(load-file "~/.lisp/configs/projectile.el")
+
+(defun align-to-equals (begin end)
+  "Align region to equal signs"
+   (interactive "r")
+   (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
+(global-set-key (kbd "C-c a =") 'align-to-equals)

@@ -9,6 +9,7 @@
 ;; (setq ac-auto-start nil)
 ;; (ac-set-trigger-key "TAB")
 (add-to-list 'ac-modes 'enh-ruby-mode)
+(add-to-list 'ac-modes 'slim-mode)
 
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (define-key ac-mode-map (kbd "M-f") 'ac-isearch)

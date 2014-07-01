@@ -114,7 +114,7 @@ task :install do
 end
 
 def skip?(file)
-  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup ssh iterm2 lisp].include?(file)
+  %w[.DS_Store Rakefile README.rdoc dotfiles.tmproj backup ssh iterm2 lisp vagrant.d].include?(file)
 end
 
 def replace_file(file)
