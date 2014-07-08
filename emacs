@@ -274,12 +274,16 @@
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
- '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/")))))
+ '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
+ '(column-number-mode t)
+ '(line-number-mode 1)
+ '(show-trailing-whitespace t)
+ '(tool-bar-mode nil))
 
 ;; create the autosave dir if necessary, since emacs won't.
 (make-directory "~/.emacs.d/autosaves/" t)
@@ -415,7 +419,7 @@
 ;; (setq linum-format "%4d\u2502 ")
 (global-hl-line-mode 1)
 ; (set-face-background hl-line-face "#E0FFE0")
-(custom-set-variables '(show-trailing-whitespace t))
+
 ;; (show-paren-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -484,3 +488,5 @@
    (interactive "r")
    (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
 (global-set-key (kbd "C-c a =") 'align-to-equals)
+
+(set-default-font "-apple-Inconsolata-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
