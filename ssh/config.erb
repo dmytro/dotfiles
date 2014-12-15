@@ -1,11 +1,10 @@
 # vi:noai:nosm:tw=76 ts=4 sw=4
 # From  http://blogs.perl.org/users/smylers/2011/08/ssh-productivity-tips.html
 StrictHostKeyChecking no
-#ControlMaster auto
-#ControlPath /tmp/ssh_mux_%h_%p_%r
-#ControlPersist 6h
+ControlMaster auto
+ControlPath /tmp/ssh_mux_%h_%p_%r
+<% if @controlpersist -%>    ControlPersist 6h <% end %>
 ForwardAgent yes
-GSSAPIAuthentication no
 #Ciphers arcfour256
 #MACs umac-64@openssh.com
 
@@ -27,38 +26,28 @@ Host heroku.com
 IdentityFile ~/.ssh/heroku
 
 Host github.com gist.github.com
-    ControlMaster auto
-    ControlPath /tmp/ssh_mux_%h_%p_%r
-<% if @controlpersist -%>    ControlPersist 6h <% end %>
     HostName github.com
     IdentityFile ~/.ssh/github
     User git
 
 
 Host bitbucket.org
-    ControlMaster auto
-    ControlPath /tmp/ssh_mux_%h_%p_%r
-<% if @controlpersist -%>    ControlPersist 6h <% end %>
     IdentityFile ~/.ssh/github
     User git
 
 Host viy
-    ControlMaster auto
-    ControlPath /tmp/ssh_mux_%h_%p_%r
-<% if @controlpersist -%>    ControlPersist 6h <% end %>
     HostName viy.sakae
     IdentityFile ~/.ssh/svaroh
     User dk
 
+Host polel
+    HostName polel.sakae
+    IdentityFile ~/.ssh/svaroh
+    User dmytro
+
 <%= $coiney %>
 
-<%= $simply_cubed %>
-
-<%= $swift %>
-
 <%= $irox %>
-
-<%= $spilno %>
 
 #Host 192.168.2.*
 Host *
