@@ -12,8 +12,10 @@ precmd() {
     vcs_info 
 }
 
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
+  setopt prompt_subst
+if [ $(uname -s) = Linux ]; then
+  zstyle ':vcs_info:git:*' check-for-changes true
+fi
 
 # Colors
 # zstyle ':vcs_info:*'    formats "%f[%%n@%%m %1~] $ " "%F{5}%a %m%u%c %F{6}%b:%F{3}%r/%S" 
