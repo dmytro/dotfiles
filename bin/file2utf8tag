@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# If you have munch of MP3's in a folder with filenames corresponding
+# to the titles of songs, but ID3 tags are missing or misformed (for
+# example, coming from Windows with cp1251 codapage, but you need
+# UTF8), this script will read filenames and set ID3 tags
+# correspondingly.
+#
+# cd to the directory with mp3 files and execute script
+# there. Directories on the upper level should have names:
+#
+# mp3 files directory name: disc name
+# directory 1 level up: author
+#
+# Convention for directory names is:
+#
+# ├── Author (composed
+# │   ├── Disc title
+# │   │   ├── 01 Track 1 <--- execute script in songs directory
+# │   │   ├── 02 Track 2
+# │   │   ├── 03 Track 3
+#
+# Requiremenets: uses eyeD3 Python script
+#
+# Author: Dmytro Kovalov, 2014
+
+doit () {
+    FILE="$*"
+
+     TITLE=$(/usr/bin/basename "$FILE" .mp3)
+
+     NUMBER=$(echo $TITLE | awk '$1 ~ /[0-9]+/ {print $1}')
+     if [ ! -z $NUMBER ]; then
+         TITLE=$(echo $TITLE | sed "s/${NUMBER}//")
+         NUMBER_OPT="--track=$NUMBER"
+     fi
+
+     DIR1=$(dirname "$FILE")
+     DISC=$(basename "$DIR1")
+
+     DIR2=$(dirname "$DIR1")
+     ARTIST=$(basename "$DIR2")
+
+     echo ------------------------------------------------------------------
+     echo $TITLE
+     echo $DISC
+     echo $ARTIST
+     echo $NUMBER
+
+     eyeD3 --to-v2.4 --set-encoding=utf8 --title="$TITLE" --artist="$ARTIST" --album="$DISC" $NUMBER_OPT "$FILE"
+
+     echo ==================================================================
+     echo
+}
+
+export -f doit
+/usr/bin/find "$(pwd)" -name \*.mp3 -exec bash -c 'doit "{}"'  \;

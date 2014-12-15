@@ -1,0 +1,24 @@
+#!/bin/bash
+
+doit () {
+  NAME="$*"
+  echo $NAME
+  NAME=$(echo $NAME | sed 's;^\.\/;;')
+  DIR=$(dirname "$NAME")
+  FILE="$(echo $(basename ${NAME}) | sed 's/\.[^\.]*$//')"
+  OUT=tmp/$DIR
+  OFILE="${OUT}/${FILE}.mp3"
+
+  mkdir -p "$OUT"
+  if test -f "${OFILE}" ; then
+    echo "============================================ $OFILE already exists"
+  else
+    ffmpeg -loglevel panic -i "$NAME" -f mp3 -ab 192000 "${OFILE}" || true
+    echo "============================================ DONE ${FILE} "
+    ls -l "$OFILE"
+  fi
+  return 0
+}
+
+export -f doit
+/usr/bin/find -E . -regex ".*(ape|flac)" -exec bash -c 'doit "{}"'  \;

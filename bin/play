@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+ 
+def play songs
+  song = songs[rand songs.length].strip
+  puts song
+  song.gsub!('`','\\\\`')
+  $pid = Process.spawn "afplay -v .2 \"#{song}\""
+  Process.wait $pid
+  sleep 1
+end
+ 
+Kernel.trap('INT')  { Process.kill "INT", $pid }
+Kernel.trap('TSTP') { puts "Exiting...";  exit }
+ 
+file =  File.expand_path( ARGV[0] || "~/music.list")
+songs = File.readlines(file)
+ 
+play songs while true
