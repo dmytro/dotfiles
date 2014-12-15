@@ -186,14 +186,14 @@
 ;;;
 ;;; HTML helper
 ;;;
-(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
-(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
-(setq html-helper-do-write-file-hooks t)
-(setq html-helper-build-new-buffer t)
-(setq html-helper-use-expert-menu 't) ; full menu
+;; (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+(setq auto-mode-alist (cons '("\\.html$" . html-mode) auto-mode-alist))
+;; (setq html-helper-do-write-file-hooks t)
+;; (setq html-helper-build-new-buffer t)
+;; (setq html-helper-use-expert-menu 't) ; full menu
 					;Apr 21 1999
 
-;;;                                                                                       ============================================================
+;;; ============================================================
 ;;; RUBY
 ;; (require 'ruby-mode)
 ;; (require 'ruby-electric)
@@ -490,3 +490,8 @@
 (global-set-key (kbd "C-c a =") 'align-to-equals)
 
 (set-default-font "-apple-Inconsolata-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+
+;; http://stackoverflow.com/questions/2284703/emacs-how-to-disable-file-changed-on-disk-checking
+(global-auto-revert-mode)
+
+(set-variable 'vc-follow-symlinks' t)
