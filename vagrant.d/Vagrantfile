@@ -49,6 +49,11 @@ Vagrant.configure(2) do |config|
     irox.vm.host_name = 'irox.dmytro.local'
     irox.vm.network :forwarded_port, guest: 22,   host: 2261, id: "ssh"
     irox.vm.network :forwarded_port, guest: 3000, host: 3003, id: "rails"
+
+    config.vm.provider "virtualbox" do |vb|
+      # Use VBoxManage to customize the VM. For example to change memory:
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
   end
 
   # config.vm.synced_folder ".", "/vagrant", :nfs => true
@@ -63,14 +68,14 @@ Vagrant.configure(2) do |config|
   config.vm.define :coiney do |coiney|
     coiney.vm.box = "coiney_rails"
 
-    secrets = JSON.load File.read File.expand_path('~/Development/coiney/rails/lib/coiney_chef_solo/data_bags/secrets/coiney.json', __dir__)
+    secrets = (YAML.load_file File.expand_path('~/.fog/'))["default"]
 
     require 'vagrant/environment'
     require 'aws-sdk'
 
     s3 = AWS::S3.new(
-                     :access_key_id => secrets['S3_ACCESS_KEY'],
-                     :secret_access_key => secrets['S3_SECRET_KEY']
+                     :access_key_id => secrets['aws_access_key_id'],
+                     :secret_access_key => secrets['aws_secret_access_key']
                      )
     object = s3.buckets['coiney-infra'].objects['vagrant/coiney_rails.box']
     url = object.url_for(:get, { :expires => 20*60, :secure => true }).to_s
@@ -79,6 +84,7 @@ Vagrant.configure(2) do |config|
     coiney.vm.host_name = 'vagrant.coiney.local'
     coiney.vm.network :forwarded_port, guest: 22,   host: 2260, id: "ssh"
     coiney.vm.network :forwarded_port, guest: 3000, host: 3000, id: "rails"
+    coiney.vm.network :forwarded_port, guest: 80, host: 8080, id: "nginx"
 
     config.vm.provision "shell", inline: "groupadd --non-unique --gid 500 deploy || true"
     config.vm.provision "shell", inline: "useradd --non-unique --uid 500  --gid 500  --no-create-home --home-dir /home/vagrant deploy || true "
@@ -86,7 +92,7 @@ Vagrant.configure(2) do |config|
 
     config.vm.provider "virtualbox" do |vb|
       # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--memory", "768"]
     end
   end
 
