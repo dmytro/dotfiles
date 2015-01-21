@@ -1,7 +1,8 @@
 ;; Projectile
 
 (setq projectile-rails-keymap-prefix (kbd "M-r"))
-(setq projectile-keymap-prefix (kbd "C-c C-p"))
+;; (setq projectile-keymap-prefix (kbd "C-c C-p"))
+(setq projectile-keymap-prefix (kbd "M-p"))
 (projectile-global-mode)
 ;; (add-hook 'ruby-mode-hook 'projectile-on)
 ;; Display ido results vertically, rather than horizontally
