@@ -18,3 +18,4 @@ Thumbs.db
 /.ruby-version
 build.tar.gz
 .#*
+._.DS_Store
