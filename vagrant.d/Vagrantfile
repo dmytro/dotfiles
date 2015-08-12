@@ -4,7 +4,69 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 #VAGRANTFILE_API_VERSION = "2"
 
+require 'yaml'
+
+def install_ruby(version)
+
+end
+
+PACKAGES = {
+  ubuntu: {
+    common: %w{software-properties-common python-software-properties build-essential git nginx curl},
+    rails: %w{rake libxml2 libxml2-dev libxslt-dev zlib1g-dev},
+    pg: %w{zlib1g-dev postgresql postgresql-contrib libpq-dev},
+    mysql: %w{libmysqlclient-dev}
+  }
+}
+
+STD_RUBY_VERSION="2.0"
+DOTFILES= "https://github.com/dmytro/dotfiles.git"
+
+SETUP_ENVIRONMENT =<<-SCRIPT
+      apt-get update
+      apt-get remove -qq --assume-yes pico nano
+      apt-get install --assume-yes -qq #{PACKAGES[:ubuntu][:common].join(' ')}
+
+  apt-get remove -qq --assume-yes pico nano
+  apt-get install -qq -y git zsh curl ruby#{STD_RUBY_VERSION} ruby#{STD_RUBY_VERSION}-dev
+
+  update-alternatives --remove ruby /usr/bin/ruby#{STD_RUBY_VERSION}
+  update-alternatives --remove irb /usr/bin/irb#{STD_RUBY_VERSION}
+  update-alternatives --remove gem /usr/bin/gem#{STD_RUBY_VERSION}
+
+      update-alternatives \
+        --install /usr/bin/ruby ruby /usr/bin/ruby#{STD_RUBY_VERSION} 50 \
+        --slave /usr/bin/irb irb /usr/bin/irb#{STD_RUBY_VERSION} \
+        --slave /usr/bin/rake rake /usr/bin/rake#{STD_RUBY_VERSION} \
+        --slave /usr/bin/gem gem /usr/bin/gem#{STD_RUBY_VERSION} \
+        --slave /usr/bin/rdoc rdoc /usr/bin/rdoc#{STD_RUBY_VERSION} \
+        --slave /usr/bin/testrb testrb /usr/bin/testrb#{STD_RUBY_VERSION} \
+        --slave /usr/bin/erb erb /usr/bin/erb#{STD_RUBY_VERSION} \
+        --slave /usr/bin/ri ri /usr/bin/ri#{STD_RUBY_VERSION}
+
+      update-alternatives --config ruby
+      update-alternatives --display ruby
+      gem install bundler
+
+      test -d ~vagrant/dotfiles || su vagrant -c "git clone #{DOTFILES} && cd ~/dotfiles && rake install "
+      chsh -s /bin/zsh vagrant
+      echo 'cd /vagrant' >> ~/.zshrc
+SCRIPT
+
 Vagrant.configure(2) do |config|
+
+  config.vm.define :basicubuntu do |vm|
+    vm.vm.box = "ubuntu14.04"
+    vm.vm.hostname = "basic-ubuntu"
+
+    config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+    end
+
+    config.vm.provision "shell", inline: SETUP_ENVIRONMENT
+
+  end
+
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
@@ -66,120 +128,51 @@ Vagrant.configure(2) do |config|
 
 
   config.vm.define :coiney do |coiney|
-    coiney.vm.box = "coiney_rails"
-
-    secrets = (YAML.load_file File.expand_path('~/.fog/'))["default"]
-
     require 'vagrant/environment'
     require 'aws-sdk'
 
-    s3 = AWS::S3.new(
-                     :access_key_id => secrets['aws_access_key_id'],
-                     :secret_access_key => secrets['aws_secret_access_key']
-                     )
-    object = s3.buckets['coiney-infra'].objects['vagrant/coiney_rails.box']
-    url = object.url_for(:get, { :expires => 20*60, :secure => true }).to_s
+    coiney.vm.box = "coiney_rails"
+  coiney.vm.network "private_network", ip: "192.168.56.10" #, virtualbox__intnet: true
+#    coiney.vm.network "private_network", ip: "172.28.128.2", virtualbox__intnet: true
+    #coiney.vm.network :private_network, :type => "dhcp"
+    #coiney.vm.synced_folder "/Users/dmytro/Development/coiney-rails", "/vagrant" , type: "nfs"
 
-    config.vm.box_url = url
+    # secrets = (YAML.load_file File.expand_path('~/.fog/'))["default"]
+
+
+    # s3 = AWS::S3.new(
+    #                  :access_key_id => secrets['aws_access_key_id'],
+    #                  :secret_access_key => secrets['aws_secret_access_key']
+    #                  )
+    # object = s3.buckets['coiney-infra'].objects['vagrant/coiney_rails.box']
+    # url = object.url_for(:get, { :expires => 20*60, :secure => true }).to_s
+
+    # config.vm.box_url = url
     coiney.vm.host_name = 'vagrant.coiney.local'
     coiney.vm.network :forwarded_port, guest: 22,   host: 2260, id: "ssh"
+#    coiney.vm.network :forwarded_port, guest: 3306,   host: 3306, id: "mysql"
     coiney.vm.network :forwarded_port, guest: 3000, host: 3000, id: "rails"
-    coiney.vm.network :forwarded_port, guest: 80, host: 8080, id: "nginx"
+    # coiney.vm.network :forwarded_port, guest: 3306, host: 4306, id: "mysql"
+    # coiney.vm.network :forwarded_port, guest: 80, host: 8080, id: "nginx"
 
     config.vm.provision "shell", inline: "groupadd --non-unique --gid 500 deploy || true"
     config.vm.provision "shell", inline: "useradd --non-unique --uid 500  --gid 500  --no-create-home --home-dir /home/vagrant deploy || true "
     config.vm.provision "shell", inline: "ln -nfs /home/vagrant /home/deploy || true "
 
     config.vm.provider "virtualbox" do |vb|
-      # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "768"]
+      disk = "#{ENV['HOME']}/vagrant.d/disks/coiney_rails_tmp.vdi"
+      mysql  = "#{ENV['HOME']}/vagrant.d/disks/coiney_rails_mysql_volume.vdi"
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      unless File.exist?(disk)
+        vb.customize ['createhd', '--filename', disk, '--size', 5 * 1024]
+      end
+      unless File.exist?(mysql)
+        vb.customize ['createhd', '--filename', mysql, '--size', 5 * 1024]
+      end
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', mysql]
+      #vb.gui = true
     end
   end
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # If true, then any SSH connections made will enable agent forwarding.
-  # Default value: false
-  # config.ssh.forward_agent = true
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  #
-  # View the documentation for the provider you're using for more
-  # information on available options.
-
-  # Enable provisioning with CFEngine. CFEngine Community packages are
-  # automatically installed. For example, configure the host as a
-  # policy server and optionally a policy file to run:
-  #
-  # config.vm.provision "cfengine" do |cf|
-  #   cf.am_policy_hub = true
-  #   # cf.run_file = "motd.cf"
-  # end
-  #
-  # You can also configure and bootstrap a client to an existing
-  # policy server:
-  #
-  # config.vm.provision "cfengine" do |cf|
-  #   cf.policy_server_address = "10.0.2.15"
-  # end
-
-  # Enable provisioning with Puppet stand alone.  Puppet manifests
-  # are contained in a directory path relative to this Vagrantfile.
-  # You will need to create the manifests directory and a manifest in
-  # the file default.pp in the manifests_path directory.
-  #
-  # config.vm.provision "puppet" do |puppet|
-  #   puppet.manifests_path = "manifests"
-  #   puppet.manifest_file  = "site.pp"
-  # end
-
-  # Enable provisioning with chef solo, specifying a cookbooks path, roles
-  # path, and data_bags path (all relative to this Vagrantfile), and adding
-  # some recipes and/or roles.
-  #
-  # config.vm.provision "chef_solo" do |chef|
-  #   chef.cookbooks_path = "../my-recipes/cookbooks"
-  #   chef.roles_path = "../my-recipes/roles"
-  #   chef.data_bags_path = "../my-recipes/data_bags"
-  #   chef.add_recipe "mysql"
-  #   chef.add_role "web"
-  #
-  #   # You may also specify custom JSON attributes:
-  #   chef.json = { :mysql_password => "foo" }
-  # end
-
-  # Enable provisioning with chef server, specifying the chef server URL,
-  # and the path to the validation key (relative to this Vagrantfile).
-  #
-  # The Opscode Platform uses HTTPS. Substitute your organization for
-  # ORGNAME in the URL and validation key.
-  #
-  # If you have your own Chef Server, use the appropriate URL, which may be
-  # HTTP instead of HTTPS depending on your configuration. Also change the
-  # validation key to validation.pem.
-  #
-  # config.vm.provision "chef_client" do |chef|
-  #   chef.chef_server_url = "https://api.opscode.com/organizations/ORGNAME"
-  #   chef.validation_key_path = "ORGNAME-validator.pem"
-  # end
-  #
-  # If you're using the Opscode platform, your validator client is
-  # ORGNAME-validator, replacing ORGNAME with your organization name.
-  #
-  # If you have your own Chef Server, the default validation client name is
-  # chef-validator, unless you changed the configuration.
-  #
-  #   chef.validation_client_name = "ORGNAME-validator"
 end
