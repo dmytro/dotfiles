@@ -282,6 +282,7 @@
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(column-number-mode t)
  '(line-number-mode 1)
+ '(safe-local-variable-values (quote ((encoding . utf-8))))
  '(show-trailing-whitespace t)
  '(tool-bar-mode nil))
 
@@ -345,8 +346,12 @@
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 (defun markdown-custom () "markdown-mode-hook"
-  (set-variable 'fill-column' 1000)
+       (set-variable 'fill-column' 72)
+       (setq tab-width 2)
+       (local-set-key [M-right] 'forward-word)
+       (local-set-key [M-left] 'backward-word)
   )
+
 (add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
 
 ;;;
@@ -356,7 +361,7 @@
 (require 'textile-mode)
 (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 (defun textile-custom () "textile-mode-hook"
-  (set-variable 'fill-column' 1000)
+  (set-variable 'fill-column' 72)
   )
 (add-hook 'textile-mode-hook '(lambda() (textile-custom)))
 
@@ -501,3 +506,9 @@
 (global-auto-revert-mode)
 
 (set-variable 'vc-follow-symlinks' t)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
