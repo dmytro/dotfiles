@@ -6,10 +6,12 @@
 
   '(coffee-mode gist haml-mode inf-ruby markdown-mode ruby-mode smartparens
                 rhtml-mode ruby-electric rinari flymake-ruby json-mode
-                textile-mode projectile python sass-mode rainbow-mode
+                textile-mode projectile projectile-rails python sass-mode rainbow-mode
                 scss-mode sass-mode css-mode slim-mode color-theme
                 volatile-highlights yaml-mode yari snippet pabbrev ag
-                enh-ruby-mode autopair flex-autopair magit exec-path-from-shell)
+                enh-ruby-mode autopair flex-autopair magit exec-path-from-shell
+                auto-complete
+                )
 
   "A list of packages to ensure are installed at launch.")
 ;; --------------------------------------------
