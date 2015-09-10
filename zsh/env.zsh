@@ -18,3 +18,11 @@ export PATH=/usr/local/share/python/:/usr/local/bin:$PATH:/sbin:/usr/sbin:~/.tmu
 # 
 setopt interactivecomments
 
+#
+# Boot 2 docker
+#
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=/Users/dmytro/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
+
+

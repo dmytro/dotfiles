@@ -59,10 +59,6 @@ Vagrant.configure(2) do |config|
     vm.vm.box = "ubuntu14.04"
     vm.vm.hostname = "basic-ubuntu"
 
-    config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "512"]
-    end
-
     config.vm.provision "shell", inline: SETUP_ENVIRONMENT
 
   end
@@ -87,36 +83,201 @@ Vagrant.configure(2) do |config|
   # config.vm.network "private_network", ip: "192.168.56.10", virtualbox__intnet: true
 
   config.vm.usable_port_range = 2200..2250
-
+  config.vm.box = "ubuntu14-dmytro"
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "~/.ssh", "/home/vagrant/.ssh"
-  config.vm.synced_folder "~/Development/dotfiles", "/home/vagrant/Development/dotfiles"
-  config.vm.synced_folder "~/Development/chef-solo", "/home/vagrant/Development/chef-solo"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "512"]
+  end
+
+  # config.vm.synced_folder "~/.ssh", "/home/vagrant/.ssh"
+  # config.vm.synced_folder "~/Development/dotfiles", "/home/vagrant/Development/dotfiles"
+  # config.vm.synced_folder "~/Development/chef-solo", "/home/vagrant/Development/chef-solo"
 
   config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key", "~/.ssh/vagrant"]
+
+  # config.vm.provider :aws do |aws, override|
+  #   require 'yaml'
+
+  #   secrets               = (YAML.load_file File.expand_path('~/.fog/'))["default"]
+  #   aws.access_key_id     = secrets['aws_access_key_id']
+  #   aws.secret_access_key = secrets['aws_secret_access_key']
+
+  #   # aws.keypair_name = ENV['AWS_KEYNAME']
+  #   aws.keypair_name = "work"
+  #   aws.ami = "ami-20b6aa21"
+  #   aws.region = "ap-northeast-1"
+  #   aws.instance_type = "m3.medium"
+
+  #   override.vm.box = "dummy"
+  #   override.ssh.username = "ubuntu"
+  #   # override.ssh.private_key_path = ENV['AWS_KEYPATH']
+  #   override.ssh.private_key_path = "#{ENV['HOME']}/.ssh/work.pem"
+  # end
 
 
   config.vm.provider "virtualbox" do |v|
     v.gui = false
     v.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
-    # vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-    # vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
   end
 
-  config.vm.define :irox do |irox|
-    irox.vm.box = "ubuntu14.04"
+  config.vm.define :eat do |vm|
+    vm.vm.box = "ubuntu14.04"
+    vm.vm.hostname = "eat"
 
-    irox.vm.synced_folder "~/irox", "/home/vagrant/dev"
-    irox.vm.host_name = 'irox.dmytro.local'
-    irox.vm.network :forwarded_port, guest: 22,   host: 2261, id: "ssh"
-    irox.vm.network :forwarded_port, guest: 3000, host: 3003, id: "rails"
+    vm.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+    vm.vm.synced_folder "/Users/dmytro/Development/eatisfy", "/vagrant", type: "nfs"
 
-    config.vm.provider "virtualbox" do |vb|
-      # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vm.vm.network :forwarded_port, guest: 22,   host: 2266, id: "ssh"
+    # vm.vm.network :forwarded_port, guest: 3000,   host: 3003, id: "rails"
+
+    install_packages = PACKAGES[:ubuntu][:common]
+    install_packages << PACKAGES[:ubuntu][:rails]
+    install_packages << PACKAGES[:ubuntu][:mysql]
+
+    [
+      "apt-get update",
+      "apt-get remove -qq --assume-yes pico nano",
+      "apt-get install --assume-yes -qq #{install_packages.join(' ')}",
+
+      "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3",
+      "\curl -sSL https://get.rvm.io | bash",
+      "rvm install ruby-1.9.3-p448",
+      "rvm use --default ruby-1.9.3-p448"
+
+    ].each do |command|
+      config.vm.provision "shell", inline: command
     end
+      # "rm -rf ~vagrant/dotfiles ; su vagrant -c \"git clone https://github.com/dmytro/dotfiles.git && cd ~/dotfiles && rake install \"",
+      # "chsh vagrant /bin/zsh"
   end
+
+  # config.vm.define :aws do |vm|
+  config.vm.define :exostack do |vm|
+    vm.vm.box = "ubuntu14.04"
+    vm.vm.hostname = "exostack"
+
+    vm.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+    vm.vm.synced_folder "/Users/dmytro/Development/exostack/exostack-web", "/vagrant", type: "nfs"
+
+    vm.vm.network :forwarded_port, guest: 3000,   host: 3003, id: "rails"
+
+    install_packages = %w{ software-properties-common python-software-properties build-essential zsh git rake libxml2 libxml2-dev libxslt-dev zlib1g-dev postgresql postgresql-contrib libpq-dev nginx  }
+
+    [
+      "apt-get update",
+      "apt-get remove -qq --assume-yes pico nano",
+      "apt-get install --assume-yes -qq #{install_packages.join(' ')}",
+
+      "apt-add-repository -y ppa:brightbox/ruby-ng",
+      "apt-get update",
+
+      "apt-get -qq install ruby2.2 ruby2.2-dev",
+
+      "update-alternatives --remove ruby /usr/bin/ruby2.2",
+      "update-alternatives --remove irb /usr/bin/irb2.2",
+      "update-alternatives --remove gem /usr/bin/gem2.2",
+
+      "update-alternatives \
+        --install /usr/bin/ruby ruby /usr/bin/ruby2.2 50 \
+        --slave /usr/bin/irb irb /usr/bin/irb2.2 \
+        --slave /usr/bin/rake rake /usr/bin/rake2.2 \
+        --slave /usr/bin/gem gem /usr/bin/gem2.2 \
+        --slave /usr/bin/rdoc rdoc /usr/bin/rdoc2.2 \
+        --slave /usr/bin/testrb testrb /usr/bin/testrb2.2 \
+        --slave /usr/bin/erb erb /usr/bin/erb2.2 \
+        --slave /usr/bin/ri ri /usr/bin/ri2.2",
+
+      "update-alternatives --config ruby",
+      "update-alternatives --display ruby",
+      "gem install bundler",
+
+      "sudo -u postgres createuser --superuser vagrant",
+
+    ].each do |command|
+      config.vm.provision "shell", inline: command
+    end
+      # "rm -rf ~vagrant/dotfiles ; su vagrant -c \"git clone https://github.com/dmytro/dotfiles.git && cd ~/dotfiles && rake install \"",
+      # "chsh vagrant /bin/zsh"
+  end
+
+
+  # end
+  config.vm.define :scan do |vm|
+    vm.vm.box = "ubuntu14.04"
+    vm.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+    vm.vm.synced_folder "/Users/dmytro/Development/parse_send", "/vagrant", type: "nfs"
+    vm.vm.network :forwarded_port, guest: 22,   host: 2264, id: "ssh"
+
+    config.vm.provision "shell", inline: "apt-get install --assume-yes -qq python3-pip rabbitmq-server zsh git"
+    config.vm.provision "shell", inline: "apt-get remove -qq --assume-yes pico nano"
+    config.vm.provision "shell", inline: "cd /vagrant; pip3 install -r requirements.txt"
+    config.vm.provision "shell", inline: "apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10"
+    config.vm.provision "shell", inline: "echo deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/3.0 multiverse >  /etc/apt/sources.list.d/mongodb-org-3.0.list"
+    config.vm.provision "shell", inline: "sudo apt-get update"
+    config.vm.provision "shell", inline: "apt-get install -y mongodb-org"
+
+  end
+
+#   config.vm.define :licode do |vm|
+#     vm.vm.box = "ubuntu14.04"
+# #    vm.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+#     vm.vm.network "private_network", ip: "172.28.128.20"
+#     vm.vm.synced_folder "/Users/dmytro/Development/licode", "/vagrant", type: "nfs"
+#     vm.vm.network :forwarded_port, guest: 22,   host: 2263, id: "ssh"
+#     vm.vm.network :forwarded_port, guest: 3001,   host: 3001, id: "licode"
+
+#     vm.vm.hostname = "client"
+
+#     config.vm.provider "virtualbox" do |vb|
+#       vb.customize ["modifyvm", :id, "--memory", "512"]
+#     end
+
+#     config.vm.provision "shell", inline: "apt-get install --assume-yes git zsh tmux"
+#     config.vm.provision "shell", inline: "apt-get remove -qq --assume-yes pico nano"
+#     config.vm.provision "shell", inline: "id ubuntu || useradd ubuntu"
+#     config.vm.provision "shell", inline: "hostname client; hostname > /etc/hostname"
+#     config.vm.provision "shell", inline: "echo '172.28.128.4 chef' >> /etc/hosts"
+#     config.vm.provision "shell", inline: "rm -rf /opt/chef/"
+#   end
+
+  # config.vm.define :chef do |vm|
+  #   vm.vm.box = "ubuntu14.04"
+  #   vm.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+  #   vm.vm.synced_folder "/Users/dmytro/Development/licode", "/vagrant", type: "nfs"
+  #   vm.vm.network :forwarded_port, guest: 22,   host: 2264, id: "ssh"
+  #   config.vm.provider "virtualbox" do |vb|
+  #     vb.customize ["modifyvm", :id, "--memory", "2048"]
+  #   end
+  #   config.vm.provision "shell", inline: "apt-get install --assume-yes git zsh"
+  #   config.vm.provision "shell", inline: "id ubuntu || useradd ubuntu"
+  #   config.vm.provision "shell", inline: "apt-get remove -qq --assume-yes pico nano"
+  # end
+
+  # config.vm.define :bootstrap do |irox|
+  #   irox.vm.box = "ubuntu14.04"
+  #   irox.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+  #   irox.vm.synced_folder "/Users/dmytro/Development/chef-solo", "/vagrant", type: "nfs"
+  #   irox.vm.network :forwarded_port, guest: 22,   host: 2263, id: "ssh"
+  #   config.vm.provider "virtualbox" do |vb|
+  #     vb.customize ["modifyvm", :id, "--memory", "512"]
+  #   end
+  #   config.vm.provision "shell", inline: "apt-get install --assume-yes git"
+  #   config.vm.provision "shell", inline: "id ubuntu || useradd ubuntu"
+  # end
+
+  # config.vm.define :irox do |irox|
+  #   irox.vm.box = "ubuntu14.04"
+
+  #  # irox.vm.synced_folder "~/irox", "/home/vagrant/dev"
+  #   irox.vm.network "private_network", type: "dhcp" #, virtualbox__vboxnet2: true
+  #   irox.vm.synced_folder "/Users/dmytro/Development/irox", "/vagrant", type: "nfs"
+  #   irox.vm.host_name = 'irox.dmytro.local'
+  #   irox.vm.network :forwarded_port, guest: 22,   host: 2261, id: "ssh"
+  #   irox.vm.network :forwarded_port, guest: 3000, host: 3003, id: "rails"
+
+  # end
 
   # config.vm.synced_folder ".", "/vagrant", :nfs => true
   config.vm.define :nagira do |nagira|
