@@ -171,13 +171,21 @@
 (setq auto-mode-alist (append '(("\\.\\([pP][Llm]\\|al\\)$" . cperl-mode))  auto-mode-alist ))
 (setq interpreter-mode-alist (append interpreter-mode-alist '(("miniperl" . cperl-mode))))
 (setq perl-tab-to-comment 't)
-;; (setq exec-path (append '("/usr/local/bin") exec-path))
+(setq exec-path (append '("/usr/local/bin") exec-path))
 
 ;;
 ;; SHELL
 ;;
 (if (file-exists-p "/bin/bash") (setq explicit-shell-file-name "/bin/bash"))
 (if (file-exists-p "/bin/zsh")  (setq explicit-shell-file-name "/bin/zsh"))
+
+(defun setup-sh-mode ()
+  "Personal preferences for `sh-mode'."
+  (interactive)
+  (setq sh-basic-offset 2
+        sh-indentation 2))
+
+(add-hook 'sh-mode-hook 'setup-sh-mode)
 
 ;;
 ;; PYTHON
@@ -514,3 +522,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; Docker files
+
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
