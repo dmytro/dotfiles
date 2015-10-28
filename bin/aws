@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Use this with Docker (and Boot2docte on mac) for excuting AWS
+# commands.
+#
+# 1. Create AWS config and credentials in the same directory:
+#
+#  mkdir aws-config
+#
+# - aws-config/config
+#
+# [default]
+# output = json
+# region = us-east-1
+#
+# - aws-config/credentials
+# [default]
+# aws_access_key_id = [KEYID]
+# aws_secret_access_key = [SECRET ID]
+#
+# 2. Add script directory to PATH variable
+
+#
+# Example:
+#
+# - aws ec2 describe-instances
+#
+# - Intercative use: aws -i
+
+# Volumes mounted on run (all R/O):
+#
+# 1.  ~/.ssh --> /root/.ssh
+# 2. <script_directory>/aws-config  --> /root/.aws
+# 3. current PWD --> /aws
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+VOLUMES="-v ${HOME}/.ssh:/aws/.ssh -v ${DIR}/aws-config:/root/.aws:ro -v ${PWD}:/var/tmp:ro"
+DOCKER_IMAGE=anigeo/awscli
+
+if [ "$1" = "-i" ]; then
+  docker run -it --rm ${VOLUMES} -w=/var/tmp --entrypoint /bin/sh ${DOCKER_IMAGE}
+else
+  docker run -it --rm ${VOLUMES} -w=/var/tmp ${DOCKER_IMAGE} $*
+fi
+
