@@ -280,13 +280,18 @@ Vagrant.configure(2) do |config|
   # end
 
   # config.vm.synced_folder ".", "/vagrant", :nfs => true
-  config.vm.define :nagira do |nagira|
+  config.vm.define :nagira_cent do |nagira|
     nagira.vm.box = "cent64_minimal"
     nagira.vm.host_name = 'nagira.dmytro.local'
     nagira.vm.network :forwarded_port, guest: 22,   host: 2262, id: "ssh"
     nagira.vm.network :forwarded_port, guest: 4567, host: 3002, id: "rails"
   end
 
+  config.vm.define :nagira do |nagira|
+    nagira.vm.box = "ubuntu14.04"
+    nagira.vm.host_name = 'nagira.ubuntu.local'
+    nagira.vm.network :forwarded_port, guest: 4567, host: 4567, id: "sinatra"
+  end
 
   config.vm.define :coiney do |coiney|
     require 'vagrant/environment'

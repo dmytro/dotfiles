@@ -26,3 +26,5 @@ DISABLE_AUTO_TITLE=true
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+which fortune > /dev/null && ( echo; fortune; echo)

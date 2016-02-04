@@ -19,10 +19,14 @@ export PATH=/usr/local/share/python/:/usr/local/bin:$PATH:/sbin:/usr/sbin:~/.tmu
 setopt interactivecomments
 
 #
-# Boot 2 docker
+# Docker-machone
 #
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/dmytro/.boot2docker/certs/boot2docker-vm
+export DOCKER_HOST=tcp://192.168.99.100:2376
+export DOCKER_MACHINE_NAME=default
 export DOCKER_TLS_VERIFY=1
 
+#export DOCKER_HOST=tcp://192.168.59.103:2376
+#export DOCKER_CERT_PATH=/Users/dmytro/.boot2docker/certs/boot2docker-vm
+export DOCKER_CERT_PATH=/Users/dmytro/.docker/machine/certs/
 
+export VAGRANT_CWD=/Users/dmytro/Development/coreos-vagrant/vagrant

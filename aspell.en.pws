@@ -1,6 +1,5 @@
-personal_ws-1.1 en 72 
+personal_ws-1.1 en 80 
 login
-exnvironments
 STDOUT
 RHEL
 hostnames
@@ -10,6 +9,7 @@ ubuntu
 JSON
 namespace
 UI
+paidy
 banalizer
 CLI
 RESTful
@@ -18,8 +18,10 @@ javascript
 github
 SATA
 netboot
+VPC
 IDE
 bundler
+cp
 STDERR
 sudoers
 uname
@@ -27,6 +29,7 @@ wget
 RedHat
 ContraFlow
 SNMP
+aws
 AWS
 Couchbase
 couchbase
@@ -34,8 +37,10 @@ perl
 memorizable
 TODO
 zsh
+CloudFormation
 nagira
 nagios
+exnvironments
 Gubygems
 CPAN
 Namespacing
@@ -44,6 +49,7 @@ DNS
 sudo
 AIX
 yaml
+ssl
 Google
 crontab
 Debian's
@@ -69,5 +75,7 @@ blog
 ERB
 Kovalov
 HOWTO
+MacOSX
 params
+Kubernetes
 TTL

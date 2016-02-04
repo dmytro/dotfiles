@@ -1,4 +1,4 @@
-(setq enh-ruby-program "~/.rvm/bin/ruby")
+(setq enh-ruby-program "/usr/bin/ruby")
 (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
 (add-to-list 'auto-mode-alist '("Capfile"  . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Cheffile"  . enh-ruby-mode))

@@ -116,7 +116,7 @@
 (setq inhibit-start-screen 1)  ;; do not open *GNU Emacs" buffer
 (setq inhibit-splash-screen 1)
 
-(setq truncate-partial-width-windows 'nil)
+;; (setq truncate-partial-width-windows 'nil)
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 ;(menu-bar-mode 0)
