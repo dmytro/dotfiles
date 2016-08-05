@@ -6,12 +6,11 @@
 
   '(coffee-mode gist haml-mode inf-ruby markdown-mode ruby-mode smartparens
                 rhtml-mode ruby-electric rinari flymake-ruby json-mode
-                textile-mode projectile projectile-rails python sass-mode rainbow-mode
-                scss-mode sass-mode css-mode slim-mode color-theme
-                volatile-highlights yaml-mode yari snippet pabbrev ag
-                enh-ruby-mode autopair flex-autopair magit exec-path-from-shell
-                auto-complete
-                )
+                textile-mode projectile projectile-rails python sass-mode
+                rainbow-mode scss-mode sass-mode css-mode slim-mode
+                color-theme volatile-highlights yaml-mode yari snippet
+                systemd pabbrev ag enh-ruby-mode autopair flex-autopair
+                magit exec-path-from-shell auto-complete )
 
   "A list of packages to ensure are installed at launch.")
 ;; --------------------------------------------
@@ -90,8 +89,10 @@
 (global-set-key [M-left]  'backward-word)
 
 ;;; Full screen mode on/off
-(local-set-key (kbd "M-RET") 'toggle-fullscreen)
-(global-set-key (kbd "M-RET") 'toggle-fullscreen)
+;; (local-set-key (kbd "M-RET") 'toggle-frame-maximized)
+;; (global-set-key (kbd "M-RET") 'toggle-fullscreen)
+(local-set-key (kbd "M-RET") 'toggle-frame-maximized)
+(global-set-key (kbd "M-RET") 'toggle-frame-maximized)
 
 ;; In X Window C-z and C-xC-z are bound to ncofng wndo whch s dsturbnng for me
 ;;iconify-or-deiconify-frame
@@ -161,6 +162,9 @@
 ;;;
 ;(autoload 'css-mode "css-mode")
 (setq auto-mode-alist (cons '("\\.css\\'" . css-mode) auto-mode-alist))
+
+;;; SystemD, Fleet
+(setq auto-mode-alist (cons '("\\.service\\'" . conf-unix-mode) auto-mode-alist))
 
 ;;;
 ;;; PERL
@@ -237,6 +241,12 @@
 ;;(setq auto-mode-alist (cons '("\\.rhtml\\'" . rhtml-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
 
+;;;
+;;; Crystal
+;;;
+(autoload 'crystal-mode "crystal-mode" "Major mode for crystal files" t)
+(add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode))
+(add-to-list 'interpreter-mode-alist '("crystal" . crystal-mode))
 
 ;; ;; Projectile
 ;; (projectile-global-mode)
@@ -527,3 +537,5 @@
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
