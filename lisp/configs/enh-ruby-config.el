@@ -60,3 +60,20 @@ of FILE in the current directory, suitable for creation"
           (lambda ()
             (require 'ruby-electric)
             (ruby-electric-mode t)))
+
+;; (add-hook 'projectile-mode-hook 'projectile-rails-on)
+
+;; ;;  IDO mode
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-everywhere t)
+;; (ido-mode 1)
+;; (setq ido-file-extensions-order '(".rb" ".erb" ".yml" ))
+;; (defcustom projectile-rails-keymap-prefix (kbd "M-r")
+;;   "`projectile-rails-mode' keymap prefix."
+;;   :group 'projectile-rails
+;;   :type 'string)
+
+
+
+;;; ----------------------------------------
+;;; -- Ruby mode

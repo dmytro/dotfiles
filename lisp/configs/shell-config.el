@@ -11,3 +11,6 @@
         sh-indentation 2))
 
 (add-hook 'sh-mode-hook 'setup-sh-mode)
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
