@@ -7,9 +7,9 @@ Rakefile
 Rubygems
 ubuntu
 JSON
+paidy
 namespace
 UI
-paidy
 banalizer
 CLI
 RESTful
@@ -30,7 +30,6 @@ RedHat
 ContraFlow
 SNMP
 aws
-AWS
 Couchbase
 couchbase
 perl
@@ -67,6 +66,7 @@ DSL
 RSpec
 wizcorp
 camelized
+unmount
 API
 yarddoc
 CGI
