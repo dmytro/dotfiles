@@ -20,38 +20,68 @@
 # │   │   ├── 02 Track 2
 # │   │   ├── 03 Track 3
 #
-# Requiremenets: uses eyeD3 Python script
+# Requirements: uses eyeD3 Python script
 #
 # Author: Dmytro Kovalov, 2014
+#
+# Execute:
+#
+#
 
-doit () {
-    FILE="$*"
+set -e
 
-     TITLE=$(/usr/bin/basename "$FILE" .mp3)
+if [ "$1" = "--dry" ]; then
+   export DRYRUN="echo"
+fi
 
-     NUMBER=$(echo $TITLE | awk '$1 ~ /[0-9]+/ {print $1}')
-     if [ ! -z $NUMBER ]; then
-         TITLE=$(echo $TITLE | sed "s/${NUMBER}//")
-         NUMBER_OPT="--track=$NUMBER"
-     fi
+write_tags () {
+  local file="$*"
 
-     DIR1=$(dirname "$FILE")
-     DISC=$(basename "$DIR1")
+  local song_title=$(/usr/bin/basename "$file" .mp3)
 
-     DIR2=$(dirname "$DIR1")
-     ARTIST=$(basename "$DIR2")
+  track_number=$(echo $song_title | awk '$1 ~ /[0-9]+/ {print $1}' | tr -d .)
 
-     echo ------------------------------------------------------------------
-     echo $TITLE
-     echo $DISC
-     echo $ARTIST
-     echo $NUMBER
+  if [ ! -z $track_number ]; then
+    song_title=$(echo $song_title | sed "s/${track_number}//")
+    track_number_option="--track=$track_number"
+  fi
 
-     eyeD3 --to-v2.4 --set-encoding=utf8 --title="$TITLE" --artist="$ARTIST" --album="$DISC" $NUMBER_OPT "$FILE"
+  local file_dir=$(dirname "$file")
+  local disk_name=$(basename "$file_dir")
+  local disk_dir=$(dirname "$file_dir")
+  local artist_name=$(basename "$disk_dir")
 
-     echo ==================================================================
-     echo
+  echo ------------------------------------------------------------------
+  echo artist: $artist_name
+  echo disc: $disk_name
+  echo title: $song_title
+  echo track num: $track_number
+
+  ${DRYRUN} eyeD3 --to-v2.4 --encoding utf8 \
+            --title "$song_title" \
+            --artist "$artist_name" \
+            --album-artist "$artist_name" \
+            --album "$disk_name" \
+            $track_number_option \
+            "$file"
+  echo ==================================================================
+  echo
 }
 
-export -f doit
-/usr/bin/find "$(pwd)" -name \*.mp3 -exec bash -c 'doit "{}"'  \;
+attach_images() {
+  local file=$@
+  local dir=$(dirname "$file")
+
+  find "${dir}" -iname \*.jpg | while read IMAGE; do
+    local description=$(basename "${IMAGE}")
+    printf " --add-image '%s:OTHER' " "${IMAGE}"
+  done
+}
+
+main () {
+  /usr/bin/find "$(pwd)" -iname \*.mp3 | while read FILE; do
+    write_tags "${FILE}"
+  done
+}
+
+main
