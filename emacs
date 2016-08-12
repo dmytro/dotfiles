@@ -47,9 +47,24 @@
 (setq auto-mode-alist (cons '("\\.service\\'" . conf-unix-mode) auto-mode-alist))
 
 ;;; Language modes
+
+;; (load-library "crystal-config")
+(load-library "css-config")                       ; SASS,SCSS too
+(load-library "docker-config")
+(load-library "html-config")
+(load-library "json-config")
+(load-library "markdown-config")
 (load-library "perl-config")
-(load-library "shell-config")
+(load-library "python-config")
 (load-library "ruby-config")
+(load-library "rust-config")
+(load-library "shell-config")
+(load-library "systemd-config")                   ;SystemD, Fleet
+(load-library "textile-config")
+(load-library "yaml-config")
+;; (load-library "cheetah-config") ; Cheetah-Mode is for editing snippets in Cobbler
+;; (load-library "puppet-config")
+;; (load-library "slim-config")
 
 ;;
 ;; PYTHON
