@@ -583,7 +583,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
        (t
         (let ((dot (crystal-smie--at-dot-call))
               (tok (smie-default-forward-token)))
-          (message "default forward tok '%s'" tok)
+          ;; (message "default forward tok '%s'" tok)
           (when dot
             (setq tok (concat "." tok)))
           (cond
@@ -613,7 +613,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
                  (line-end-position))
               (crystal-smie--forward-token)) ;Fully redundant.
              (t ";")))
-           (t (message "forward '%s'" tok) tok)))))))))
+           (t tok)))))))))
 
 (defun crystal-smie--backward-token ()
   (let ((pos (point)))
@@ -626,7 +626,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
      ;;((looking-at crystal-macro-cmd-re) "{%end%}")
      ;;((looking-at crystal-macro-end-cmd-re) (match-string 1))
      ((looking-back "%}")
-      (message "looking back at a macro cmd")
+      ;; (message "looking back at a macro cmd")
       ;; scan backawards to {%
       (re-search-backward "{%")
       (message "at %s %s" (point) (char-after))
@@ -654,7 +654,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
      (t
       (let ((tok (smie-default-backward-token))
             (dot (crystal-smie--at-dot-call)))
-        (message "default backward tok is '%s'" tok)
+        ;; (message "default backward tok is '%s'" tok)
         (when dot
           ;; (message "back dot")
           (setq tok (concat "." tok)))
@@ -697,7 +697,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
                (line-end-position))
             (crystal-smie--backward-token)) ;Fully redundant.
            (t ";")))
-         (t (message "backward '%s'" tok) tok)))))))
+         (t  tok)))))))
 
 (defun crystal-smie--indent-to-stmt ()
   (save-excursion
@@ -709,7 +709,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
       (memq (intern keyword) crystal-align-to-stmt-keywords)))
 
 (defun crystal-smie-rules (kind token)
-  (message "indent '%s' '%s'" kind token)
+  ;; (message "indent '%s' '%s'" kind token)
   (pcase (cons kind token)
     (`(:elem . basic) crystal-indent-level)
     ;; "foo" "bar" is the concatenation of the two strings, so the second
@@ -717,7 +717,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
     (`(:elem . args) (if (looking-at "\\s\"") 0))
     ;; (`(:after . ",") (smie-rule-separator kind))
     (`(:before . ";")
-     (message "Before ;")
+     ;; (message "Before ;")
      (cond
       ((smie-rule-parent-p "def" "begin" "do" "class" "module" "{%for%}"
                            "while" "until" "unless" "macro"
