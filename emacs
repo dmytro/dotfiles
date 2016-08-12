@@ -16,6 +16,8 @@
 
 (load-library "locale-config")
 
+(load-library "window-size-config")
+
 ;;;; MODES
 (setq default-major-mode 'text-mode)
 (add-hook 'text-mode-hook '(lambda () (auto-fill-mode 1)))
