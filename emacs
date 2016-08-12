@@ -176,34 +176,34 @@
 ;;;     ad-do-it))
 ;;; (ad-activate 'tramp-maybe-open-connection)
 
-(require 'json-mode)
-(autoload 'json-mode "json-mode" "Major mode for editing JSON data")
-(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+;; (require 'json-mode)
+;; (autoload 'json-mode "json-mode" "Major mode for editing JSON data")
+;; (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 ;;;
 ;;; Markdown mode
 ;;;
-(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
-(setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+;; (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
+;; (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
-(defun markdown-custom () "markdown-mode-hook"
-       (set-variable 'fill-column' 72)
-       (setq tab-width 2)
-       (local-set-key [M-right] 'forward-word)
-       (local-set-key [M-left] 'backward-word)
-  )
+;; (defun markdown-custom () "markdown-mode-hook"
+;;        (set-variable 'fill-column' 72)
+;;        (setq tab-width 2)
+;;        (local-set-key [M-right] 'forward-word)
+;;        (local-set-key [M-left] 'backward-word)
+;;   )
 
-(add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
+;; (add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
 
 ;;;
 ;;; textile mode
 ;;; http://dev.nozav.org/textile-mode.html
 
-(require 'textile-mode)
-(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
-(defun textile-custom () "textile-mode-hook"
-  (set-variable 'fill-column' 72)
-  )
-(add-hook 'textile-mode-hook '(lambda() (textile-custom)))
+;; (require 'textile-mode)
+;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+;; (defun textile-custom () "textile-mode-hook"
+;;   (set-variable 'fill-column' 72)
+;;   )
+;; (add-hook 'textile-mode-hook '(lambda() (textile-custom)))
 
 ;;;
 ;;; Nagios mode
@@ -236,32 +236,32 @@
 ;; (require 'sass-mode)
 ;; (require 'scss-mode)
 ;; (require 'slim-mode)
-(defun disable-smartparens ()
-  (smartparens-mode 0)
-  )
+;; (defun disable-smartparens ()
+;;   (smartparens-mode 0)
+;;   )
 
-(add-hook 'slim-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
-(add-hook 'yaml-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
+;; (add-hook 'slim-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
+;; (add-hook 'yaml-mode-hook 'disable-smartparens)   ; TO be able to indemt/unindent with >,<
 
-;; Electic indent - disable indenting previos line
-(add-hook 'yaml-mode-hook
-          '(lambda ()
-             (define-key yaml-mode-map "\C-m" 'newline-and-indent)
-             (set (make-local-variable 'electric-indent-mode) nil)
-             (electric-indent-local-mode -1)      ; For 24.4, see http://goo.gl/aURErf
-             )
-          )
+;; ;; Electic indent - disable indenting previos line
+;; (add-hook 'yaml-mode-hook
+;;           '(lambda ()
+;;              (define-key yaml-mode-map "\C-m" 'newline-and-indent)
+;;              (set (make-local-variable 'electric-indent-mode) nil)
+;;              (electric-indent-local-mode -1)      ; For 24.4, see http://goo.gl/aURErf
+;;              )
+;;           )
 
-(add-hook 'slim-mode-hook
-          '(lambda ()
-             (define-key slim-mode-map "\C-m" 'newline-and-indent)
-             (set (make-local-variable 'electric-indent-mode) nil)
-             (electric-indent-local-mode -1)      ; For 24.4, see http://goo.gl/aURErf
-             )
-          )
+;; (add-hook 'slim-mode-hook
+;;           '(lambda ()
+;;              (define-key slim-mode-map "\C-m" 'newline-and-indent)
+;;              (set (make-local-variable 'electric-indent-mode) nil)
+;;              (electric-indent-local-mode -1)      ; For 24.4, see http://goo.gl/aURErf
+;;              )
+;;           )
 
-;;  SASS mode
-(setq scss-compile-at-save 'nil)
+;; ;;  SASS mode
+;; (setq scss-compile-at-save 'nil)
 
 (require 'snippet)
 ;;; Server
@@ -308,8 +308,8 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; Configs
-(load-file "~/.lisp/configs/enh-ruby-config.el")
-(load-file "~/.lisp/configs/autocomplete.el")
+;; (load-file "~/.lisp/configs/enh-ruby-config.el")
+;; (load-file "~/.lisp/configs/autocomplete.el")
 (load-file "~/.lisp/configs/projectile.el")
 
 (defun align-to-equals (begin end)
@@ -331,8 +331,8 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; Docker files
+;; ;; Docker files
 
-(require 'dockerfile-mode)
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
+;; (require 'dockerfile-mode)
+;; (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+;; (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
