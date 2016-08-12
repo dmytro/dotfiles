@@ -1,143 +1,23 @@
 ;; -*- mode: Lisp; fill-column: 75; comment-column: 50; -*-
-;;;                                                                                       ==================================================================
-;;;  Install required packages
 ;;;
-(defvar prelude-packages
-
-  '(coffee-mode gist haml-mode inf-ruby markdown-mode ruby-mode smartparens
-                rhtml-mode ruby-electric rinari flymake-ruby json-mode
-                textile-mode projectile projectile-rails python sass-mode
-                rainbow-mode scss-mode sass-mode css-mode slim-mode
-                color-theme volatile-highlights yaml-mode yari snippet
-                systemd pabbrev ag enh-ruby-mode autopair flex-autopair
-                magit exec-path-from-shell auto-complete )
-
-  "A list of packages to ensure are installed at launch.")
-;; --------------------------------------------
-
-(require 'cl)                                     ;for loop macro
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" .
-               "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
 
 
-;
-(defun prelude-packages-installed-p ()
- (loop for p in prelude-packages
-       when (not (package-installed-p p)) do (return nil)
-       finally (return t)))
-;
-(unless (prelude-packages-installed-p)
- ;; check for new packages (package versions)
- (message "%s" "Emacs Prelude is now refreshing its package database...")
- (package-refresh-contents)
- (message "%s" " done.")
- ;; install the missing packages
- (dolist (p prelude-packages)
-   (when (not (package-installed-p p))
-     (package-install p))))
+(setq load-path (append '("~/.lisp") load-path))
+(setq load-path (append '("~/.lisp/configs") load-path))
 
-(provide 'prelude-packages)
-;;;                                                                                       ==================================================================
-;;; prelude-packages.el ends here
+(load-library "install-packages-config")   ; Automatically install required
+                                           ; packages on startup
 
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+(load-library "keys-config")                      ; All keys combinations,
+                                                  ; keystrokes
+
+(load-library "ux-config")                        ; Menues, views, tabs, font-lock
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
-(setq load-path (append '("~/.lisp") load-path))
 
-;;;
-;;; KEYS
-;;;
-(global-set-key "\C-g" 'goto-line)
-(local-set-key "\C-g" 'goto-line)
-(local-set-key "\C-x\C-o" 'other-window)
-(global-set-key "\C-x\C-o" 'other-window)
-(global-set-key "\M-`" 'other-window)
 
-;;; Naviagating with M-up/down - previos window
-;;; http://nex-3.com/posts/45-efficient-window-switching-in-emacs
-
-(defun select-next-window ()
-  "Switch to the next window"
-  (interactive)
-  (select-window (next-window)))
-
-(defun select-previous-window ()
-  "Switch to the previous window"
-  (interactive)
-  (select-window (previous-window)))
-
-(global-set-key (kbd "M-`") 'select-next-window)
-(global-set-key (kbd "M-<up>") 'select-next-window)
-(global-set-key (kbd "M-<down>")  'select-previous-window)
-
-(global-set-key [C-left] 'windmove-left)          ; move to left windnow
-(global-set-key [C-right] 'windmove-right)        ; move to right window
-(global-set-key [C-up] 'windmove-up)              ; move to upper window
-(global-set-key [C-down] 'windmove-down)          ; move to downer window
-
-;;; These are defaults anyway
-(global-set-key [M-right] 'forward-word)
-(global-set-key [M-left]  'backward-word)
-
-;;; Full screen mode on/off
-;; (local-set-key (kbd "M-RET") 'toggle-frame-maximized)
-;; (global-set-key (kbd "M-RET") 'toggle-fullscreen)
-(local-set-key (kbd "M-RET") 'toggle-frame-maximized)
-(global-set-key (kbd "M-RET") 'toggle-frame-maximized)
-
-;; In X Window C-z and C-xC-z are bound to ncofng wndo whch s dsturbnng for me
-;;iconify-or-deiconify-frame
-(global-unset-key "\C-z")
-(local-unset-key "\C-z")
-(global-unset-key "\C-x\C-z")
-(local-unset-key "\C-x\C-z")
-
-;;; undo to C-x C-u
-(local-set-key "\C-x\C-u" 'advertised-undo)
-(global-set-key "\C-x\C-u" 'advertised-undo)
-(global-set-key "\M-_" 'advertised-undo) ; Meta-_
-(global-set-key "\M-z" 'advertised-undo) ; Meta-z
-
-					;  other window -> C-x C-o (instead of C-x o)
-(local-set-key "\C-x\C-o" 'other-window)
-(global-set-key "\C-x\C-o" 'other-window)
-
-;;;
-;;; ENVIRONMENT/ TOOLBARS / LAYOUT / VIEW
-;;;
-(setq inhibit-start-screen 1)  ;; do not open *GNU Emacs" buffer
-(setq inhibit-splash-screen 1)
-
-;; (setq truncate-partial-width-windows 'nil)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-;(menu-bar-mode 0)
-(setq column-number-mode t) ;; Show column numbers
-(setq line-number-mode 1) ;; Show line numbers
-(setq-default indent-tabs-mode nil) ;; Use spaces for tabs
-(setq-default tab-width 4)
-(setq-default c-basic-offset 4)
-(setq visible-bell t) ;; Visable bells
-(delete-selection-mode 1)
-(setq transient-mark-mode 't)
-
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
-
-;;; 2009/03/30
-;;; http://groups.google.com/group/carbon-emacs/browse_thread/thread/537c1d730453c94f?pli =1
-(setq mac-command-modifier 'meta)
-(setq x-select-enable-clipboard t)
-(setq mac-option-modifier 'meta)
 (if (eq system-type "darwin")
     (set-input-method 'ucs)) ;; to make ^-S work on macOSX
 
@@ -166,30 +46,10 @@
 ;;; SystemD, Fleet
 (setq auto-mode-alist (cons '("\\.service\\'" . conf-unix-mode) auto-mode-alist))
 
-;;;
-;;; PERL
-;;;
-
-;(autoload 'perl-mode "cperl-mode" "alternate mode for editing Perl programs" t)
-(setq cperl-hairy t)
-(setq auto-mode-alist (append '(("\\.\\([pP][Llm]\\|al\\)$" . cperl-mode))  auto-mode-alist ))
-(setq interpreter-mode-alist (append interpreter-mode-alist '(("miniperl" . cperl-mode))))
-(setq perl-tab-to-comment 't)
-(setq exec-path (append '("/usr/local/bin") exec-path))
-
-;;
-;; SHELL
-;;
-(if (file-exists-p "/bin/bash") (setq explicit-shell-file-name "/bin/bash"))
-(if (file-exists-p "/bin/zsh")  (setq explicit-shell-file-name "/bin/zsh"))
-
-(defun setup-sh-mode ()
-  "Personal preferences for `sh-mode'."
-  (interactive)
-  (setq sh-basic-offset 2
-        sh-indentation 2))
-
-(add-hook 'sh-mode-hook 'setup-sh-mode)
+;;; Language modes
+(load-library "perl-config")
+(load-library "shell-config")
+(load-library "ruby-config")
 
 ;;
 ;; PYTHON
@@ -207,46 +67,6 @@
 ;; (setq html-helper-use-expert-menu 't) ; full menu
 					;Apr 21 1999
 
-;;; ============================================================
-;;; RUBY
-;; (require 'ruby-mode)
-;; (require 'ruby-electric)
-
-;(load-file "~/.lisp/configs/ruby-mode-config.el")
-
-(require 'smartparens-config)
-(require 'smartparens-ruby)
-(smartparens-global-mode)
-(show-smartparens-global-mode t)
-(sp-with-modes '(rhtml-mode)
-  (sp-local-pair "<" ">")
-  (sp-local-pair "<%" "%>"))
-
-;; (require 'ruby-block)
-;; (ruby-block-mode t)
-;; (setq ruby-block-highlight-toggle 'overlay)
-
-;; Rinari Mode (Rails)
-(add-to-list 'load-path "~/.lisp/rinari")
-(add-to-list 'load-path "~/.lisp/rinari/rhtml")
-(require 'rinari)
-
-(defun my-rhtml-mode-hook ()
-  (auto-fill-mode -1)
-  (flyspell-mode -1)
-  (longlines-mode -1))
-(add-hook 'rhtml-mode-hook 'my-rhtml-mode-hook)
-
-(require 'rinari)
-;;(setq auto-mode-alist (cons '("\\.rhtml\\'" . rhtml-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
-
-;;;
-;;; Crystal
-;;;
-(autoload 'crystal-mode "crystal-mode" "Major mode for crystal files" t)
-(add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode))
-(add-to-list 'interpreter-mode-alist '("crystal" . crystal-mode))
 
 ;; ;; Projectile
 ;; (projectile-global-mode)
@@ -466,7 +286,6 @@
 ;;;
 ;;; Switch buffers
 ;;; --------------------------------------------
-(global-set-key "\C-x\C-b" 'buffer-menu) ; Open buffer list in the same buffer, intead of other
 (iswitchb-mode 1)
 (setq iswitchb-buffer-ignore '("^\\*"))
 ;; http://www.emacswiki.org/emacs/IswitchBuffers
@@ -487,27 +306,6 @@
 (setq split-width-threshold nil)
 (setq split-height-threshold nil)
 (put 'dired-find-alternate-file 'disabled nil)
-
-;; http://stackoverflow.com/questions/11623189/how-to-bind-keys-to-indent-unindent-region-in-emacs/11624677#11624677
-;;
-(defun my-indent-region (N)
-  (interactive "p")
-  (if (use-region-p)
-      (progn (indent-rigidly (region-beginning) (region-end) (* N 2))
-             (setq deactivate-mark nil))
-    (self-insert-command N)))
-
-(defun my-unindent-region (N)
-  (interactive "p")
-  (if (use-region-p)
-      (progn (indent-rigidly (region-beginning) (region-end) (* N -2))
-             (setq deactivate-mark nil))
-    (self-insert-command N)))
-
-(sp-pair "<" nil :actions :rem)
-(sp-pair ">" nil :actions :rem)
-(global-set-key ">" 'my-indent-region)
-(global-set-key "<" 'my-unindent-region)
 
 ;; Configs
 (load-file "~/.lisp/configs/enh-ruby-config.el")
@@ -537,5 +335,4 @@
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
