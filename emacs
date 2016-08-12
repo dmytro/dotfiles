@@ -43,14 +43,8 @@
 ;; (load-library "slim-config")
 
 
-;; (require 'snippet)
-;;; Server
-;; (server-start)
-
-(load-library "projectile")
-
-
-
+;;  For some reason load-library does not work for projectile... --dk
+(load-file "~/.lisp/configs/projectile.el")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -76,51 +70,3 @@
  '(safe-local-variable-values (quote ((encoding . utf-8))))
  '(show-trailing-whitespace t)
  '(tool-bar-mode nil))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  ALL DISABLE STUFF
-;; For reference
-
-
-
-;;; Disabled - hangs emacs
-;;; (load "/Applications/Emacs.app/Contents/Resources/site-lisp/nxhtml/autostart.el")
-;;; (load "/Users/dmytro/.lisp/jekyll/jekyll-mumamo.el")
-;;; (load "/Users/dmytro/.lisp/jekyll/jekyll.el")
-
-;;; Hangs
-;;; (require 'tramp)
-;;; (setq tramp-default-method "ssh")
-;;; (defadvice tramp-maybe-open-connection
-;;;   (around set-process-connection-type)
-;;;   "Set process-connection-type to pty."
-;;;   (let ((process-connection-type 'pty))
-;;;     ad-do-it))
-;;; (ad-activate 'tramp-maybe-open-connection)
-
-;;;
-;;; Nagios mode
-;;; http://michael.orlitzky.com/code/nagios-mode.php
-;; (require 'nagios-mode)
-;; (setq auto-mode-alist
-;;     (append (list '("\\.cfg$" . nagios-mode))
-;;       auto-mode-alist))
-
-;;    ⌘T - Go to File
-;;  ⇧⌘T - Go to Symbol
-;;    ⌘L - Go to Line
-;;  ⇧⌘L - Select Line (or expand Selection to select lines)
-;;    ⌘/ - Comment Line (or Selection/Region)
-;;    ⌘] - Shift Right (currently indents region)
-;;    ⌘[ - Shift Left  (not yet implemented)
-;;  ⌥⌘] - Align Assignments
-;;  ⌥⌘[ - Indent Line
-;;    ⌥↑ - Column Up
-;;    ⌥↓ - Column Down
-;;  ⌘RET - Insert Newline at Line's End
-;;  ⌥⌘T - Reset File Cache (for Go to File)
-
-;;; too much troubles...
-;; (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
-;; (require 'textmate)
-;; (textmate-mode)
