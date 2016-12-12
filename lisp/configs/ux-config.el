@@ -1,4 +1,5 @@
-(set-default-font "-apple-Inconsolata-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+;(set-default-font "-apple-Inconsolata-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+(set-default-font "-apple-Monako-medium-normal-normal-*-10-*-*-*-m-0-iso10646-1") ; 235x70
 ;;;
 ;;; ENVIRONMENT/ TOOLBARS / LAYOUT / VIEW
 ;;;
@@ -77,3 +78,6 @@
 
 ;; (show-paren-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(desktop-save-mode 1)
+(set-cursor-color "#ff0000")            ; red
