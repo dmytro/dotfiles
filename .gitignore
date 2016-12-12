@@ -9,3 +9,4 @@ zsh/cache/
 ssh/config
 *wizcorp*
 zj_*
+vagrant.d/.vagrant/
