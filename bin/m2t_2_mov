@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# ffmpeg -i ${1} \
+#        -acodec libvo_aacenc \
+#        -ar 48000 \
+#        -ab 384k \
+#        -coder ac  \
+# 	   -vcodec libx264  \
+# 	   -threads 0  \
+# 	   -deinterlace  \
+# 	   -b:v 3000k  \
+# 	   -cmp +chroma  \
+# 	   -g 250  \
+# 	   -partitions +parti4x4+partp8x8+partb8x8  \
+# 	   -i_qfactor 0.71  \
+# 	   -keyint_min 25  \
+# 	   -b_strategy 1  \
+# 	   -flags +loop \
+#        ${1}.mp4
+
+
+# ffmpeg -i ${1} \
+#        -c:v libx264 \
+#        -preset ultrafast \
+#        -tune film \
+#        -crf 10 \
+#        -c:a copy \
+#        ${1}.mov
+
+#ffmpeg -i ${1} -vcodec prores -b:v 3000k -profile:v 4 -c:a copy   ${1}.mov
+
+ffmpeg -y -i "$@"  -vcodec prores -profile:v 3 -r "29.97" -c:a mp2    "$@.mov"
+
+
+#ffmpeg -y -probesize 5000000 -f image2 -r 48 -force_fps -i ${DPX_HERO} -probesize 5000000 -f image2 -r 48 -force_fps -i ${DPX_2ND} -c:v prores_ks -profile:v 3 -qscale:v ${QSCALE} -vendor ap10 -pix_fmt yuv422p10le -s 2048x1152 -r 48 -map 0:0 -map 1:0 -metadata stereo_mode=left_right output.mov
+
+
+#ffmpeg -i ${1} -acodec libfaac -ar 48000 -ab 384k -coder ac -vcodec ${VCODEC} -threads 0 -deinterlace -b:v 3000k -cmp +chroma -g 250 -partitions +parti4x4+partp8x8+partb8x8 -i_qfactor 0.71 -keyint_min 25 -b_strategy 1 -flags +loop ${1}.mp4
+#ffmpeg -i ${1} -acodec copy -vcodec copy ${1}.mov
