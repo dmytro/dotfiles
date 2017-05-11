@@ -28,3 +28,7 @@ DISABLE_AUTO_TITLE=true
 export PATH="/usr/local/heroku/bin:$PATH"
 
 which fortune > /dev/null && ( echo; fortune; echo)
+
+# added by travis gem
+[ -f /Users/dmytro/.travis/travis.sh ] && source /Users/dmytro/.travis/travis.sh
+export PATH="/usr/local/opt/go@1.6/bin:$PATH"

@@ -38,6 +38,7 @@
 (load-library "systemd-config")                   ;SystemD, Fleet
 (load-library "textile-config")
 (load-library "yaml-config")
+(load-library "groovy-config")
 ;; (load-library "cheetah-config") ; Cheetah-Mode is for editing snippets in Cobbler
 ;; (load-library "puppet-config")
 ;; (load-library "slim-config")
@@ -46,6 +47,9 @@
 ;;  For some reason load-library does not work for projectile... --dk
 (load-file "~/.lisp/configs/projectile.el")
 
+
+;; Magit
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  CUSTOM
@@ -56,7 +60,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(enh-ruby-op-face ((t (:foreground "selectedControlColor"))))
+ '(font-lock-comment-face ((t (:foreground "controlShadowColor" :slant italic)))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

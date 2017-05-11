@@ -31,3 +31,10 @@ setopt interactivecomments
 
 #export VAGRANT_CWD=/Users/dmytro/Development/coreos-vagrant/vagrant
 export VAGRANT_CWD=/Users/dmytro/Development/dotfiles/vagrant.d
+
+#
+#
+# https://github.com/tmux/tmux/issues/475
+export EVENT_NOKQUEUE=1
+
+export GOPATH=~/Development/gopath/
