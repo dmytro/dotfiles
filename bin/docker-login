@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run --rm -v ~:/root anigeo/awscli --region=us-east-1 ecr get-login | /bin/bash

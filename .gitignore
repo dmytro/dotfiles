@@ -10,3 +10,4 @@ ssh/config
 *wizcorp*
 zj_*
 vagrant.d/.vagrant/
+/bin/deis
