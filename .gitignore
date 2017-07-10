@@ -11,3 +11,4 @@ ssh/config
 zj_*
 vagrant.d/.vagrant/
 /bin/deis
+/vim/bundle/ctrlp.vim/.netrwhist

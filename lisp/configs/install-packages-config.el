@@ -10,7 +10,7 @@
                 rainbow-mode scss-mode sass-mode css-mode slim-mode
                 color-theme volatile-highlights yaml-mode yari snippet
                 systemd pabbrev ag enh-ruby-mode autopair flex-autopair
-                magit exec-path-from-shell auto-complete )
+                magit exec-path-from-shell auto-complete magit )
 
   "A list of packages to ensure are installed at launch.")
 ;; --------------------------------------------
