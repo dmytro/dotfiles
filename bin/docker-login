@@ -1,3 +1,5 @@
 #!/bin/bash
-/usr/bin/docker run --rm  anigeo/awscli --region=ap-northeast-1 ecr get-login --no-include-email |\
-  /bin/bash
+docker run -v /Volumes/Protected/aws_config/:/root/.aws --rm anigeo/awscli --output=json --region=ap-northeast-1  ecr get-login --no-include-email | bash
+
+#aws --region=ap-northeast-1 ecr get-login --no-include-email |\
+#  /bin/bash
