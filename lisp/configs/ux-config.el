@@ -1,5 +1,5 @@
 ;(set-default-font "-apple-Inconsolata-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
-(set-default-font "-apple-Monako-medium-normal-normal-*-10-*-*-*-m-0-iso10646-1") ; 235x70
+;(set-default-font "-apple-Monako-medium-normal-normal-*-10-*-*-*-m-0-iso10646-1") ; 235x70
 ;;;
 ;;; ENVIRONMENT/ TOOLBARS / LAYOUT / VIEW
 ;;;
@@ -33,8 +33,8 @@
 
 (set-variable 'vc-follow-symlinks' t)
 
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+;; (require 'volatile-highlights)
+;; (volatile-highlights-mode t)
 
 (defun toggle-fullscreen ()
   (interactive)
@@ -45,11 +45,11 @@
 ;;;
 ;;; Colors
 ;;;
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-deep-blue)))
+;; (require 'color-theme)
+;; (eval-after-load "color-theme"
+;;   '(progn
+;;      (color-theme-initialize)
+;;      (color-theme-deep-blue)))
 
 ;;;
 ;;; Switch buffers
@@ -74,7 +74,7 @@
 (setq split-height-threshold nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-(load-library "autocomplete")
+;(load-library "autocomplete")
 
 ;; (show-paren-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

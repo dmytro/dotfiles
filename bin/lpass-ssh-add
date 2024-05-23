@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -o errexit
+
+lpass status -q || lpass login dmytro.kovalov@gmail.com
+
+SSH_KEYNAME=$1
+
+[ -z ${SSH_KEYNAME} ] && { echo "SSH keyname required"; exit 1; }
+
+lpass show ${SSH_KEYNAME} --field Passphrase --clip
+
+echo "Passphrase copied to the clipboard"
+
+lpass show ${SSH_KEYNAME} --field "Private Key" | ssh-add -

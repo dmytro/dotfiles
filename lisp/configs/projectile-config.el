@@ -1,9 +1,9 @@
 ;; Projectile
 
-(setq projectile-rails-keymap-prefix (kbd "M-r"))
-;; (setq projectile-keymap-prefix (kbd "C-c C-p"))
+(projectile-mode +1)
+
 (setq projectile-keymap-prefix (kbd "M-p"))
-(projectile-global-mode)
+;; (projectile-global-mode)
 ;; (add-hook 'ruby-mode-hook 'projectile-on)
 ;; Display ido results vertically, rather than horizontally
 (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
@@ -17,7 +17,7 @@
 
 (global-set-key (kbd "C-x C-d") 'projectile-dired)
 
-(add-hook 'projectile-mode-hook 'projectile-rails-on)
+;; (add-hook 'projectile-mode-hook 'projectile-rails-on)
 
 ;;  IDO mode
 (setq ido-enable-flex-matching t)

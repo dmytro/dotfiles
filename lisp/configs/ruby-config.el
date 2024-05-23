@@ -21,9 +21,9 @@
 ;; (setq ruby-block-highlight-toggle 'overlay)
 
 ;; Rinari Mode (Rails)
-(add-to-list 'load-path "~/.lisp/rinari")
-(add-to-list 'load-path "~/.lisp/rinari/rhtml")
-(require 'rinari)
+;; (add-to-list 'load-path "~/.lisp/rinari")
+;; (add-to-list 'load-path "~/.lisp/rinari/rhtml")
+;; (require 'rinari)
 
 (defun my-rhtml-mode-hook ()
   (auto-fill-mode -1)
@@ -31,7 +31,6 @@
   (longlines-mode -1))
 (add-hook 'rhtml-mode-hook 'my-rhtml-mode-hook)
 
-(require 'rinari)
 ;;(setq auto-mode-alist (cons '("\\.rhtml\\'" . rhtml-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.erb\\'" . rhtml-mode) auto-mode-alist))
 

@@ -1,6 +1,6 @@
 # Enable zsh auto-completion
 fpath=($fpath ~/.zsh/completions)
-autoload compinit && compinit
+autoload -U compinit && compinit
 
 # Make autocompletion feel as bash-like as possible
 setopt bash_auto_list
@@ -32,4 +32,12 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 PS1="%B%(?..[%?] )%b%n@%m$ "
+
+# compdef lpass-ssh-add
+
+_lpass-ssh-add() {
+    compadd dmytro_github_ssh_key
+}
+
+compdef _lpass-ssh-add lpass-ssh-add
 

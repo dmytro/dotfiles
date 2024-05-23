@@ -48,5 +48,5 @@
 
 (setq ruby-deep-indent-paren nil)
 
-(require 'flymake-ruby)                 ; Syntax checker for Ruby
-(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+;; (require 'flymake-ruby)                 ; Syntax checker for Ruby
+;; (add-hook 'ruby-mode-hook 'flymake-ruby-load)

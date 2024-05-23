@@ -24,28 +24,31 @@
 
 ;;; Language modes
 
-(load-library "crystal-config")
-(load-library "css-config")                       ; SASS,SCSS too
+;; (load-library "crystal-config")
+;; (load-library "css-config")                       ; SASS,SCSS too
 (load-library "docker-config")
-(load-library "html-config")
+;; (load-library "html-config")
 (load-library "json-config")
 (load-library "markdown-config")
-(load-library "perl-config")
+;; (load-library "perl-config")
 (load-library "python-config")
 (load-library "ruby-config")
-(load-library "rust-config")
+;; (load-library "rust-config")
 (load-library "shell-config")
-(load-library "systemd-config")                   ;SystemD, Fleet
-(load-library "textile-config")
+;; (load-library "systemd-config")                   ;SystemD, Fleet
+;; (load-library "textile-config")
 (load-library "yaml-config")
-(load-library "groovy-config")
+;; (load-library "groovy-config")
 ;; (load-library "cheetah-config") ; Cheetah-Mode is for editing snippets in Cobbler
 ;; (load-library "puppet-config")
 ;; (load-library "slim-config")
 
 
-;;  For some reason load-library does not work for projectile... --dk
-(load-file "~/.lisp/configs/projectile.el")
+(use-package projectile
+  :init
+  (setq projectile-keymap-prefix (kbd "M-p"))
+  :config
+  (projectile-mode +1))
 
 
 ;; Magit
@@ -68,9 +71,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
- '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
+ '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
+ '(backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
  '(column-number-mode t)
- '(safe-local-variable-values (quote ((encoding . utf-8))))
+ '(custom-enabled-themes '(deeper-blue))
+ '(package-selected-packages
+   '(go-mode terraform-mode terraform-doc yaml-mode volatile-highlights textile-mode smartparens projectile pabbrev markdown-mode magit json-mode exec-path-from-shell auto-complete ag))
+ '(safe-local-variable-values '((encoding . utf-8)))
  '(show-trailing-whitespace t)
  '(tool-bar-mode nil))

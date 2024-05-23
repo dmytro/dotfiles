@@ -4,24 +4,36 @@
 ;;;
 (defvar prelude-packages
 
-  '(coffee-mode gist haml-mode inf-ruby markdown-mode ruby-mode smartparens
-                rhtml-mode ruby-electric rinari flymake-ruby json-mode
-                textile-mode projectile projectile-rails python sass-mode
-                rainbow-mode scss-mode sass-mode css-mode slim-mode
-                color-theme volatile-highlights yaml-mode yari snippet
-                systemd pabbrev ag enh-ruby-mode autopair flex-autopair
-                magit exec-path-from-shell auto-complete magit )
+  ;; '(coffee-mode haml-mode inf-ruby markdown-mode ruby-mode smartparens
+  ;;               rhtml-mode ruby-electric rinari flymake-ruby json-mode
+  ;;               textile-mode projectile projectile-rails python sass-mode
+  ;;               rainbow-mode scss-mode sass-mode css-mode slim-mode
+  ;;               color-theme volatile-highlights yaml-mode yari snippet
+  ;;               systemd pabbrev ag enh-ruby-mode autopair flex-autopair
+  ;;               magit exec-path-from-shell auto-complete magit )
+
+  ;; "A list of packages to ensure are installed at launch.")
+
+  '(markdown-mode ruby-mode smartparens
+                json-mode
+                textile-mode projectile python 
+                volatile-highlights yaml-mode 
+                pabbrev ag 
+                magit exec-path-from-shell magit )
 
   "A list of packages to ensure are installed at launch.")
+
 ;; --------------------------------------------
 
 (require 'cl)                                     ;for loop macro
 (require 'package)
+;;(add-to-list 'package-archives
+;;             '("marmalade" .
+;;               "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
-             '("marmalade" .
-               "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
 

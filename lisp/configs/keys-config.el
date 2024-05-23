@@ -21,6 +21,8 @@
 
 (global-set-key [C-left] 'windmove-left)          ; move to left windnow
 (global-set-key [C-right] 'windmove-right)        ; move to right window
+(global-set-key (kbd "M-[") 'windmove-left)          ; move to left windnow
+(global-set-key (kbd "M-]") 'windmove-right)        ; move to right window
 (global-set-key [C-up] 'windmove-up)              ; move to upper window
 (global-set-key [C-down] 'windmove-down)          ; move to downer window
 

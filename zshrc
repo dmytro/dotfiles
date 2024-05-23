@@ -16,19 +16,12 @@ unset config_file # clean-up
 
 which dircolors > /dev/null && eval $(dircolors -b ~/.dircolors)
 
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
-[[ -s /usr/local/rvm/scripts/rvm ]] && source /usr/local/rvm/scripts/rvm
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 DISABLE_AUTO_TITLE=true
-
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
 
 which fortune > /dev/null && ( echo; fortune; echo)
 
-# added by travis gem
-[ -f /Users/dmytro/.travis/travis.sh ] && source /Users/dmytro/.travis/travis.sh
-export PATH="/usr/local/opt/go@1.6/bin:$PATH"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/dmytro/Development/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dmytro/Development/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/dmytro/Development/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dmytro/Development/google-cloud-sdk/completion.zsh.inc'; fi
